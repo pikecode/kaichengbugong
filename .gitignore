@@ -1,0 +1,51 @@
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime
+runtime/
+*.cache
+
+# Dependencies
+node_modules/
+vendor/
+
+# Build
+dist/
+build/
+unpackage/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Uploads
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Temp
+temp/
+tmp/
+*.tmp
+
+# Database
+*.sql.gz
+*.sql.bak
+
+# Sensitive
+composer.lock
+package-lock.json
