@@ -167,19 +167,27 @@ const install = (Vue, vm) => {
 	
 	vm.$api.getVideoList 	  = async (params = {}) => await vm.$u.get('/addons/shop/api.goods/getVideoList',params);
 	
-	
-	
+
+
 	vm.$api.getTraceabilityInfo 	  = async (params = {}) => await vm.$u.get('/addons/shop/api.goods/getTraceabilityInfo',params);
-	
-	
+
+
 	vm.$api.getTraceabilityGoods 	  = async (params = {}) => await vm.$u.get('/addons/shop/api.goods/getTraceabilityGoods',params);
-	
+
 	vm.$api.getTraceabilityGoodsVideoList 	  = async (params = {}) => await vm.$u.get('/addons/shop/api.goods/getTraceabilityGoodsVideoList',params);
-	
-	
-	
-	
-	
+
+
+	// 配料回放
+	vm.$api.getIngredientReplayList 	  = async (params = {}) => await vm.$u.get('/addons/shop/api.goods/getIngredientReplayList',params);
+
+	vm.$api.getIngredientReplayInfo 	  = async (params = {}) => await vm.$u.get('/addons/shop/api.goods/getIngredientReplayInfo',params);
+
+	vm.$api.getIngredientReplayItem 	  = async (params = {}) => await vm.$u.get('/addons/shop/api.goods/getIngredientReplayItem',params);
+
+	vm.$api.getIngredientReplayItemVideoList 	  = async (params = {}) => await vm.$u.get('/addons/shop/api.goods/getIngredientReplayItemVideoList',params);
+
+
+
 
 }
 

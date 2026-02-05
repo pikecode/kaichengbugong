@@ -108,11 +108,11 @@
 			<!-- 加载更多 -->
 			<!-- <view class="u-p-b-30" v-if="recommends.length"><u-loadmore :status="has_more ? status : 'nomore'" /></view> -->
 		</view>
-		
+
 		<view class="index-content">
 			<view class="u-font-30 title">
 				<text class="stroke"></text>
-				溯源产品
+				<text style="color: #ff0000;">配料全程回放</text>
 			</view>
 			<view class="goods-list">
 				<view class="item" v-for="(item, index) in sy" :key="index" @click="goPage('/pages/index/sycp?id=' + item.id)">
@@ -126,7 +126,25 @@
 			<!-- 加载更多 -->
 			<!-- <view class="u-p-b-30" v-if="recommends.length"><u-loadmore :status="has_more ? status : 'nomore'" /></view> -->
 		</view>
-		
+
+		<view class="index-content">
+			<view class="u-font-30 title">
+				<text class="stroke"></text>
+				<text style="color: #ff0000;">到供应商处溯源，全程回放</text>
+			</view>
+			<view class="goods-list">
+				<view class="item" v-for="(item, index) in plhf" :key="index" @click="goPage('/pages/index/plhf?id=' + item.id)">
+					<view class="images"><image :src="item.image" mode="aspectFill"></image></view>
+					<view class="u-p-15 name">
+						<text class="u-line-2">{{ item.title }}</text>
+					</view>
+				</view>
+				<!-- 空数据 -->
+			</view>
+			<!-- 加载更多 -->
+			<!-- <view class="u-p-b-30" v-if="recommends.length"><u-loadmore :status="has_more ? status : 'nomore'" /></view> -->
+		</view>
+
 		<view style="height: 70rpx;width: 70rpx;position: fixed;bottom: 170px;right: 64rpx;;opacity: 0.7">
 			<!-- <view>
 				222
@@ -158,7 +176,8 @@ export default {
 			navigateList: [],
 			hots: [],
 			recommends: [],
-			sy:[]
+			sy:[],
+			plhf:[]
 		};
 	},
 	onShow() {
@@ -237,6 +256,12 @@ export default {
 					this.hots = res.hots;
 					this.recommends = res.recommends;
 					this.sy = res.sy;
+				}
+			});
+			// 加载配料回放分类列表
+			this.$api.getIngredientReplayList().then(({code,data:res,msg}) => {
+				if (code) {
+					this.plhf = res;
 				}
 			});
 		}

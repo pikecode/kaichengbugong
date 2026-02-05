@@ -119,7 +119,7 @@ export default {
 			showPoster: false,
 			showCoupon:false,
 			recommends: [],
-			list: ['商品溯源', '精彩瞬间'],
+			list: ['配料全程回放', '精彩瞬间'],
 			riqishow:false,
 			datearr:[],
 			dy:"2024-10",

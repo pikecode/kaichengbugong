@@ -53,7 +53,8 @@ const getSessionId = function(vm) {
 // 这里的vm，就是我们在vue文件里面的this，所以我们能在这里获取vuex的变量，比如存放在里面的token
 // 同时，我们也可以在此使用getApp().globalData，如果你把token放在getApp().globalData的话，也是可以使用的
 const install = (Vue, vm) => {
-	let url = 'https://wx.kcbg.com.cn/';
+	let url = 'http://localhost:8080/index.php';
+	// let url = 'https://wx.kcbg.com.cn/';
 	// let url = 'http://kcbg.com/';
 	
 	// #ifdef H5

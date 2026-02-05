@@ -356,7 +356,7 @@
 		},
 		{
 			"path" : "pages/video/video",
-			"style" : 
+			"style" :
 			{
 				"navigationStyle": "custom",
 				"navigationBarTitleText" : "",
@@ -364,8 +364,37 @@
 			}
 		},
 		{
+			"path": "pages/index/plhf",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/ingredientreplay/list",
+			"style": {
+				"navigationBarTitleText": "配料回放"
+			}
+		},
+		{
+			"path": "pages/ingredientreplay/items",
+			"style": {
+				"navigationBarTitleText": "配料项目"
+			}
+		},
+		{
+			"path": "pages/ingredientreplay/videos",
+			"style": {
+				"navigationBarTitleText": "",
+			"navigationStyle": "custom",
+			"navigationBarTextStyle": "white",
+			"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path" : "pages/index/sycp",
-			"style" : 
+			"style" :
 			{
 				"navigationBarTitleText" : "",
 				"navigationStyle": "custom",
