@@ -88,7 +88,7 @@ export default {
 				this.$emit('custom');
 				return;
 			}			
-			this.$u.route(`/pages/score/order`);
+			this.$u.route(`/packageD/score/order`);
 		}
 	}
 };

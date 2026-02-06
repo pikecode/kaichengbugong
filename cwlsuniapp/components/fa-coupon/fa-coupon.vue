@@ -6,7 +6,7 @@
 				<view class="coupon-list">
 					<view class="item u-flex" v-for="(item, index) in list" :key="index">
 						<u-badge type="error" v-if="item.num > 1 && mode" :count="item.num"></u-badge>
-						<view class="content u-flex-1 u-flex" @click="goPage('/pages/coupon/detail?id=' + item.id)">
+						<view class="content u-flex-1 u-flex" @click="goPage('/packageD/coupon/detail?id=' + item.id)">
 							<view class="left">
 								<view>
 									{{ item.result_data && item.result_data.number }}

@@ -100,11 +100,11 @@ export const tools = {
 					}
 				});
 			} else {
-				this.goPage(`/pages/order/logistics?nu=${res.expressno}&coname=${res.expressname}&order_sn=${res.order_sn}`);
+				this.goPage(`/packageD/order/logistics?nu=${res.expressno}&coname=${res.expressname}&order_sn=${res.order_sn}`);
 			}
 			// #endif
 			// #ifndef MP-WEIXIN
-			this.goPage(`/pages/order/logistics?nu=${res.expressno}&coname=${res.expressname}&order_sn=${res.order_sn}`);
+			this.goPage(`/packageD/order/logistics?nu=${res.expressno}&coname=${res.expressname}&order_sn=${res.order_sn}`);
 			// #endif
 		}
 	}
@@ -299,7 +299,7 @@ export const loginfunc = {
 		// 公众号授权
 		async goAuth(page, scope) {
 			if (this.$util.isWeiXinBrowser()) {
-				page = page ? page : '/pages/login/auth';
+				page = page ? page : '/packageD/login/auth';
 
 				let url = window.location.origin + (window.location.hash != '' ?
 					window.location.pathname + '?hashpath=' + page :
@@ -381,7 +381,7 @@ export const loginfunc = {
 				this.$u.vuex('vuex_third', res.data.third);
 
 				//授权成功到登录或绑定页面
-				this.$u.route('/pages/login/register?bind=bind');
+				this.$u.route('/packageD/login/register?bind=bind');
 			} catch (e) {
 				uni.hideLoading();
 				that.$u.toast(e);
@@ -420,7 +420,7 @@ export const loginfunc = {
 								}
 								that.$u.vuex('vuex_third', res.data.third);
 								that.$u.vuex('vuex_openid', res.data.openid);
-								that.$u.route('/pages/login/register?bind=bind');
+								that.$u.route('/packageD/login/register?bind=bind');
 							},
 							function(e) {
 								that.$u.toast('授权失败！');

@@ -195,7 +195,7 @@
 						this.$emit('input', false);
 						if (res.code == 1 && sceneval == 2) {
 							//立即购买，
-							this.goPage('/pages/goods/order?id=' + res.data + '&sceneval=' + sceneval);
+							this.goPage('/packageA/goods/order?id=' + res.data + '&sceneval=' + sceneval);
 						} else {
 							this.$emit('success');
 						}

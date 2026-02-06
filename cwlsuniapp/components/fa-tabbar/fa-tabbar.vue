@@ -205,7 +205,7 @@
 						path: this.tabbar.list[index].path,
 						title: this.tabbar.list[index].text
 					});
-					this.$u.route('/pages/webview/webview');
+					this.$u.route('/packageD/webview/webview');
 					return;
 				}
 				// 发出事件和修改v-model绑定的值

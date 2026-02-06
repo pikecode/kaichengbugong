@@ -11,10 +11,10 @@
 						:show-sex="true"
 						:sex-icon="vuex_user.gender == 1 ? 'man' : 'woman'"
 						:src="url || vuex_user.avatar"
-						@click="goPage('/pages/my/profile', true)"
+						@click="goPage('/packageD/my/profile', true)"
 					></u-avatar>
-					<view class="u-skeleton-fillet u-m-t-10 u-p-l-80 u-p-r-80 u-line-1" @click="goPage('/pages/my/profile', true)">{{ vuex_user.nickname || '' }}</view>
-					<view class="u-skeleton-fillet u-m-t-10 u-p-l-80 u-p-r-80 u-line-2" @click="goPage('/pages/my/profile', true)">{{ vuex_user.bio || '这家伙很懒，什么也没写！' }}</view>
+					<view class="u-skeleton-fillet u-m-t-10 u-p-l-80 u-p-r-80 u-line-1" @click="goPage('/packageD/my/profile', true)">{{ vuex_user.nickname || '' }}</view>
+					<view class="u-skeleton-fillet u-m-t-10 u-p-l-80 u-p-r-80 u-line-2" @click="goPage('/packageD/my/profile', true)">{{ vuex_user.bio || '这家伙很懒，什么也没写！' }}</view>
 				</block>
 				<block v-else>
 					<u-avatar size="120" src="0"></u-avatar>
@@ -29,15 +29,15 @@
 		</view>
 		<!-- 统计 -->
 		<view class="u-flex u-text-center u-p-l-30 u-p-r-30 u-p-t-50 u-p-b-50 bg-white">
-			<view class="u-flex-4" @click="goPage('/pages/order/list?status=1', true)">
+			<view class="u-flex-4" @click="goPage('/packageB/order/list?status=1', true)">
 				<view class="u-text-weight u-font-28"><text v-text="(vuex_user.order && vuex_user.order.created) || 0"></text></view>
 				<view class="u-m-t-20">待付款</view>
 			</view>
-			<view class="u-flex-4 u-border-left u-border-right" @click="goPage('/pages/order/list?status=2', true)">
+			<view class="u-flex-4 u-border-left u-border-right" @click="goPage('/packageB/order/list?status=2', true)">
 				<view class="u-text-weight u-font-28"><text v-text="(vuex_user.order && vuex_user.order.paid) || 0"></text></view>
 				<view class="u-m-t-20">待发货</view>
 			</view>
-			<view class="u-flex-4" @click="goPage('/pages/order/list?status=3', true)">
+			<view class="u-flex-4" @click="goPage('/packageB/order/list?status=3', true)">
 				<view class="u-text-weight u-font-28"><text v-text="(vuex_user.order && vuex_user.order.evaluate) || 0"></text></view>
 				<view class="u-m-t-20">待收货</view>
 			</view>
@@ -45,12 +45,12 @@
 		<!-- 导航 -->
 		<view class="u-m-t-30 u-m-b-15">
 			<u-cell-group>
-				<u-cell-item icon="list" title="我的订单" @click="goPage('/pages/order/list', true)"></u-cell-item>
+				<u-cell-item icon="list" title="我的订单" @click="goPage('/packageB/order/list', true)"></u-cell-item>
 				<!-- <u-cell-item icon="pushpin-fill" title="每日一签" @click="toSignin"></u-cell-item> -->
-				<u-cell-item icon="heart-fill" title="我的收藏" @click="goPage('/pages/my/collect', true)"></u-cell-item>
-				<u-cell-item icon="map-fill" title="我的地址" @click="goPage('/pages/address/address', true)"></u-cell-item>
-				<!-- <u-cell-item icon="coupon-fill" title="我的优惠券" @click="goPage('/pages/coupon/user',true)"></u-cell-item> -->
-				<!-- <u-cell-item icon="integral-fill" title="我的积分兑换" @click="goPage('/pages/score/order',true)"></u-cell-item> -->
+				<u-cell-item icon="heart-fill" title="我的收藏" @click="goPage('/packageD/my/collect', true)"></u-cell-item>
+				<u-cell-item icon="map-fill" title="我的地址" @click="goPage('/packageD/address/address', true)"></u-cell-item>
+				<!-- <u-cell-item icon="coupon-fill" title="我的优惠券" @click="goPage('/packageD/coupon/user',true)"></u-cell-item> -->
+				<!-- <u-cell-item icon="integral-fill" title="我的积分兑换" @click="goPage('/packageD/score/order',true)"></u-cell-item> -->
 				<view class="u-border-bottom u-p-30">
 					<!-- #ifdef MP-WEIXIN -->
 						<button class="share-btn u-flex u-row-between" open-type="contact">
@@ -75,9 +75,9 @@
 						</button>		
 					<!-- #endif -->
 				</view>
-				<u-cell-item icon="account-fill" title="个人资料" @click="goPage('/pages/my/profile', true)"></u-cell-item>
-				<u-cell-item icon="question-circle" title="帮助中心" @click="goPage('/pages/help/index')"></u-cell-item>
-				<u-cell-item icon="info-circle-fill" title="关于我们" @click="goPage('/pages/page/page?diyname=aboutus')"></u-cell-item>
+				<u-cell-item icon="account-fill" title="个人资料" @click="goPage('/packageD/my/profile', true)"></u-cell-item>
+				<u-cell-item icon="question-circle" title="帮助中心" @click="goPage('/packageD/help/index')"></u-cell-item>
+				<u-cell-item icon="info-circle-fill" title="关于我们" @click="goPage('/packageD/page/page?diyname=aboutus')"></u-cell-item>
 				<u-cell-item icon="backspace" v-if="vuex_token" title="退出登录" @click="goPage('out')"></u-cell-item>
 			</u-cell-group>
 		</view>
@@ -144,7 +144,7 @@ export default {
 						success: (res) => {
 				
 							if (res.confirm) {
-								this.$u.route("/pages/my/profile");
+								this.$u.route("/packageD/my/profile");
 							} else if (res.cancel) {
 				
 							}
@@ -166,7 +166,7 @@ export default {
 
 				return;
 			}
-			this.goPage('/pages/signin/signin', true);
+			this.goPage('/packageD/signin/signin', true);
 		},
 		editAvatar: async function() {
 			let res = await this.$api.goUserAvatar({

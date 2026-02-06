@@ -13,11 +13,11 @@
 						<u-swipe-action :show="item.show" :index="index" v-for="(item, index) in list" :key="index" @click="click" @open="open" :options="options">
 							<view class="u-flex u-row-between u-p-30 u-border-bottom">
 								<u-checkbox :active-color="theme.bgColor" v-model="item.checked" :name="item.id"></u-checkbox>
-								<view class="" @click="goPage('/pages/goods/detail?id=' + item.goods_id)">
+								<view class="" @click="goPage('/packageA/goods/detail?id=' + item.goods_id)">
 									<image :src="(item.sku && item.sku.image) || item.goods.image" mode="aspectFill"></image>
 								</view>
 								<view class="right u-flex-1">
-									<view class="u-line-1 title-sku" @click="goPage('/pages/goods/detail?id=' + item.goods_id)">{{ item.goods.title }}</view>
+									<view class="u-line-1 title-sku" @click="goPage('/packageA/goods/detail?id=' + item.goods_id)">{{ item.goods.title }}</view>
 									<view class="u-line-1 title-sku u-font-24 u-tips-color" v-if="item.sku">{{ item.sku_attr }}</view>
 									<view class="u-flex u-row-between u-m-t-15">
 										<view class="price">￥{{ (item.sku && item.sku.price) || item.goods.price }}</view>
@@ -48,7 +48,7 @@
 						您的购物车空空如也~
 						<view class="tips">快去看看有那些想买的</view>
 					</view>
-					<view class="btn" @click="goPage('/pages/goods/goods')">随便逛逛</view>
+					<view class="btn" @click="goPage('/packageA/goods/goods')">随便逛逛</view>
 				</view>
 			</view>
 		</view>
@@ -245,7 +245,7 @@ export default {
 				this.$u.toast('请选择结算商品');
 				return;
 			}
-			this.goPage('/pages/goods/order?id=' + this.cart_ids.join(','));
+			this.goPage('/packageA/goods/order?id=' + this.cart_ids.join(','));
 		}
 	}
 };

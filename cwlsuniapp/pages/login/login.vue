@@ -29,8 +29,8 @@
 			</view>
 
 			<view class="u-flex u-row-between u-tips-color u-m-t-10 u-p-20" v-if="checkLogintype('account')">
-				<view @click="goPage('/pages/login/forgetpwd')">忘记密码</view>
-				<view @click="goPage('/pages/login/register')">注册账号</view>
+				<view @click="goPage('/packageD/login/forgetpwd')">忘记密码</view>
+				<view @click="goPage('/packageD/login/register')">注册账号</view>
 			</view>
 
 			<view class="u-text-center other" v-if="isThreeLogin && checkLogintype('wechat')">
