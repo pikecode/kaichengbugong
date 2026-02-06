@@ -433,7 +433,7 @@ export default {
 			showPoster: false,
 			showCoupon:false,
 			recommends: [],
-			list: ['商品溯源', '精彩瞬间', '多视角回放'],
+			list: ['生产全程回放', '精彩瞬间', '多视角回放'],
 			riqishow:false,
 			datearr:[],
 			dy:"2024-10",
