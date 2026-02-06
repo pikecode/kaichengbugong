@@ -81,7 +81,7 @@
 		<view class="bg-white u-m-t-30">
 			<view style="padding: 20rpx;">
 				<view style="width: 100%;text-align: center;padding: 10px;font-size: 30rpx;font-weight: 900;">
-					选择商品生产日期，查看该件商品投料全过程溯源
+					选择产品生产日期，查看该产品生产投料全过程
 				</view>
 				 <!-- <view style="width: 100%;text-align: center;padding: 10px;font-size: 30rpx;font-weight: 900;">可查看该件商品投料溯源</view> -->
 				<!-- <view style="width: 100%;text-align: center;padding: 10px;font-size: 30rpx;font-weight: 900;">
