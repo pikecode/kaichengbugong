@@ -78,18 +78,6 @@
 			</view>
 		</view>
 
-		<!-- 溯源回放入口 -->
-		<view class="bg-white u-m-t-30" v-if="info.traceability_url">
-			<view class="u-p-l-30 u-p-r-30 u-p-t-30 text-weight">溯源回放</view>
-			<view class="u-p-30 u-flex u-row-between" @click="goToTraceability">
-				<view class="u-flex">
-					<u-icon name="video" color="#367bf7" size="32"></u-icon>
-					<text class="u-m-l-15 u-font-28">查看溯源回放</text>
-				</view>
-				<u-icon name="arrow-right" color="#909399"></u-icon>
-			</view>
-		</view>
-
 		<view class="bg-white u-m-t-30">
 			<view style="padding: 20rpx;">
 				<view style="width: 100%;text-align: center;padding: 10px;font-size: 30rpx;font-weight: 900;">
@@ -433,7 +421,7 @@ export default {
 			showPoster: false,
 			showCoupon:false,
 			recommends: [],
-			list: ['生产全程回放', '精彩瞬间', '多视角回放'],
+			list: ['生产全程回放', '精彩瞬间', '多视角回放', '配料回放'],
 			riqishow:false,
 			datearr:[],
 			dy:"2024-10",
@@ -459,13 +447,6 @@ export default {
 			// this.videourl = this.videoList[i].video_url;
 			// this.videoshow = true;
 
-		},
-		goToTraceability() {
-			if (this.info.traceability_url) {
-				uni.navigateTo({
-					url: this.info.traceability_url
-				});
-			}
 		},
 		sectionChange(index) {
 			this.curNow = index;
