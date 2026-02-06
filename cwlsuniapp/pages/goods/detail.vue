@@ -449,6 +449,22 @@ export default {
 
 		},
 		sectionChange(index) {
+			// 如果点击的是"配料回放"（index=3），则跳转到溯源回放页面
+			if (index === 3) {
+				if (this.info.traceability_url) {
+					uni.navigateTo({
+						url: this.info.traceability_url
+					});
+				} else {
+					uni.showToast({
+						title: '暂无配料回放',
+						icon: 'none'
+					});
+				}
+				return;
+			}
+
+			// 其他分类正常显示视频列表
 			this.curNow = index;
 			this.getVideoList()
 		},
@@ -516,6 +532,15 @@ export default {
 						});
 					}
 					// #endif
+
+					// 如果是通过二维码扫码进入且type=3（配料回放），则跳转到溯源回放页面
+					if (this.targetType === 3 && res.data.traceability_url) {
+						uni.navigateTo({
+							url: res.data.traceability_url
+						});
+						return;
+					}
+
 					this.loading = false;
 					//取同类推荐商品
 					this.getGoods(this.info.category_id);
