@@ -77,9 +77,19 @@
 				</u-table>
 			</view>
 		</view>
-		
-		
-		
+
+		<!-- 溯源回放入口 -->
+		<view class="bg-white u-m-t-30" v-if="info.traceability_url">
+			<view class="u-p-l-30 u-p-r-30 u-p-t-30 text-weight">溯源回放</view>
+			<view class="u-p-30 u-flex u-row-between" @click="goToTraceability">
+				<view class="u-flex">
+					<u-icon name="video" color="#367bf7" size="32"></u-icon>
+					<text class="u-m-l-15 u-font-28">查看溯源回放</text>
+				</view>
+				<u-icon name="arrow-right" color="#909399"></u-icon>
+			</view>
+		</view>
+
 		<view class="bg-white u-m-t-30">
 			<view style="padding: 20rpx;">
 				<view style="width: 100%;text-align: center;padding: 10px;font-size: 30rpx;font-weight: 900;">
@@ -341,6 +351,18 @@ export default {
 	],
 	onLoad(e) {
 		this.id = e.id || e.goods_id || '';
+
+		// 接收日期参数（用于二维码扫码定位）
+		if (e.date) {
+			this.targetDate = e.date;
+		}
+
+		// 接收视频分类参数（用于二维码扫码定位）
+		if (e.type !== undefined) {
+			this.curNow = parseInt(e.type);
+			this.targetType = parseInt(e.type);
+		}
+
 		let invite_id = e.invite_id || '';
 		if (e.scene) {
 			const scene = decodeURIComponent(e.scene);
@@ -411,7 +433,7 @@ export default {
 			showPoster: false,
 			showCoupon:false,
 			recommends: [],
-			list: ['商品溯源', '精彩瞬间'],
+			list: ['商品溯源', '精彩瞬间', '多视角回放'],
 			riqishow:false,
 			datearr:[],
 			dy:"2024-10",
@@ -419,7 +441,9 @@ export default {
 			curNow:0,
 			videoList:[],
 			videoshow:false,
-			videourl:''
+			videourl:'',
+			targetDate: null,  // 目标日期（从URL参数获取）
+			targetType: null   // 目标视频分类（从URL参数获取）
 		};
 	},
 	methods: {
@@ -434,7 +458,14 @@ export default {
 			// 22
 			// this.videourl = this.videoList[i].video_url;
 			// this.videoshow = true;
-			
+
+		},
+		goToTraceability() {
+			if (this.info.traceability_url) {
+				uni.navigateTo({
+					url: this.info.traceability_url
+				});
+			}
 		},
 		sectionChange(index) {
 			this.curNow = index;
@@ -455,6 +486,19 @@ export default {
 			// var thas - t
 			this.$api.getdateList({ date:date }).then(res => {
 				this.datearr = res.data;
+
+				// 如果有目标日期，自动选择对应的日期
+				if (this.targetDate && this.datearr.length > 0) {
+					const targetIndex = this.datearr.findIndex(item => item.riqi === this.targetDate);
+					if (targetIndex !== -1) {
+						this.riindex = targetIndex;
+						// 更新年月显示
+						const dateObj = new Date(this.targetDate);
+						this.dy = dateObj.getFullYear() + "-" + (dateObj.getMonth() + 1);
+					}
+					this.targetDate = null; // 清空，避免重复触发
+				}
+
 				this.getVideoList()
 			});
 		},

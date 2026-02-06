@@ -74,7 +74,7 @@
 		<view class="index-content">
 			<view class="u-font-30 title">
 				<text class="stroke"></text>
-				全部商品
+				<text style="color: #ff0000;">点击产品图，看生产投料全程回放</text>
 			</view>
 			<view class="goods-list">
 				<view class="item" v-for="(item, index) in recommends" :key="index" @click="goPage('/pages/goods/detail?id=' + item.id)">
