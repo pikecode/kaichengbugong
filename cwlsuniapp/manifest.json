@@ -110,9 +110,15 @@
     "mp-weixin" : {
         "appid" : "wx3a708b76e9f65456",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "es6": true,
+            "minified": true,
+            "postcss": true
         },
         "usingComponents" : true,
+        "optimization": {
+            "subPackages": true
+        },
         "permission" : {
             "scope.userLocation" : {
                 "desc" : "快速添加收货地址"

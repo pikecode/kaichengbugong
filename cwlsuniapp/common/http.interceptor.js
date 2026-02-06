@@ -35,8 +35,19 @@ let noLoginUrl = [
 	'/addons/shop/api.attribute/index',
 	'/addons/shop/api.attribute/index',
 	'/addons/shop/api.goods/getDateList',
-	'/addons/shop/api.goods/getVideoList'
-		
+	'/addons/shop/api.goods/getVideoList',
+
+	// 溯源接口
+	'/addons/shop/api.goods/getTraceabilityInfo',
+	'/addons/shop/api.goods/getTraceabilityGoods',
+	'/addons/shop/api.goods/getTraceabilityGoodsVideoList',
+
+	// 配料回放接口
+	'/addons/shop/api.goods/getIngredientReplayList',
+	'/addons/shop/api.goods/getIngredientReplayInfo',
+	'/addons/shop/api.goods/getIngredientReplayItem',
+	'/addons/shop/api.goods/getIngredientReplayItemVideoList'
+
 ];
 
 //设置session_id
@@ -53,8 +64,8 @@ const getSessionId = function(vm) {
 // 这里的vm，就是我们在vue文件里面的this，所以我们能在这里获取vuex的变量，比如存放在里面的token
 // 同时，我们也可以在此使用getApp().globalData，如果你把token放在getApp().globalData的话，也是可以使用的
 const install = (Vue, vm) => {
-	let url = 'http://localhost:8080/index.php';
-	// let url = 'https://wx.kcbg.com.cn/';
+	// let url = 'http://localhost:8080/index.php';
+	let url = 'https://wx.kcbg.com.cn/';
 	// let url = 'http://kcbg.com/';
 	
 	// #ifdef H5
