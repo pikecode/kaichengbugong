@@ -104,7 +104,7 @@
 				<!-- 配料回放入口（仅在选中"配料回放"tab且有配置地址时显示） -->
 				<view v-if="curNow === 3 && currentDateUrl" class="date-url-entry" @click="goDateUrl">
 					<view class="entry-content">
-						<view class="entry-title">查看本日配料回放</view>
+						<view class="entry-title">查看本批次配料回放</view>
 						<view class="entry-date">{{datearr[riindex] ? datearr[riindex].riqi : ''}}</view>
 					</view>
 					<view class="entry-arrow">
