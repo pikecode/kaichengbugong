@@ -105,7 +105,6 @@
 				<view v-if="curNow === 3 && currentDateUrl" class="date-url-entry" @click="goDateUrl">
 					<view class="entry-content">
 						<view class="entry-title">查看本批次配料回放</view>
-						<view class="entry-date">{{datearr[riindex] ? datearr[riindex].riqi : ''}}</view>
 					</view>
 					<view class="entry-arrow">
 						<u-icon name="arrow-right" size="40" color="#fff"></u-icon>
