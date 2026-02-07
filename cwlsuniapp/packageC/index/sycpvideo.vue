@@ -60,6 +60,7 @@ export default {
 	],
 	onLoad(e) {
 		this.id = e.id || e.goods_id || '';
+		this.date = e.date || '';  // 接收日期参数
 		// this.getGoodsInfo();
 		// this.getDateList('');
 		this.getVideoList()
@@ -107,6 +108,7 @@ export default {
 		return {
 			info: {},
 			id: '',
+			date: '',  // 日期参数
 			cart_nums: 0,
 			show: false,
 			guarantee_show: false,
@@ -119,7 +121,7 @@ export default {
 			showPoster: false,
 			showCoupon:false,
 			recommends: [],
-			list: ['配料全程回放', '精彩瞬间'],
+			list: ['到供应商处溯源，全程回放', '精彩瞬间'],
 			riqishow:false,
 			datearr:[],
 			dy:"2024-10",
@@ -160,7 +162,17 @@ export default {
 			});
 		},
 		getVideoList(){
-			this.$api.getTraceabilityGoodsVideoList({type:this.curNow,traceabilitygoods_id:this.id}).then(res => {
+			let params = {
+				type: this.curNow,
+				traceabilitygoods_id: this.id
+			};
+
+			// 如果有日期参数，添加到请求中
+			if (this.date) {
+				params.date = this.date;
+			}
+
+			this.$api.getTraceabilityGoodsVideoList(params).then(res => {
 				this.videoList = res.data
 			});
 		},

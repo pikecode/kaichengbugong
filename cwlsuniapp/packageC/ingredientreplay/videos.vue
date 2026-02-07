@@ -57,6 +57,7 @@ export default {
 	],
 	onLoad(e) {
 		this.id = e.id || '';
+		this.date = e.date || '';  // 接收日期参数
 		this.getVideoList();
 	},
 	onShow() {
@@ -67,8 +68,9 @@ export default {
 	data() {
 		return {
 			id: '',
+			date: '',  // 日期参数
 			cart_nums: 0,
-			list: ['溯源回放', '精彩瞬间'],
+			list: ['配料全程回放', '精彩瞬间'],
 			curNow: 0,
 			videoList: [],
 			videoshow: false,
@@ -89,7 +91,17 @@ export default {
 			this.getVideoList();
 		},
 		getVideoList() {
-			this.$api.getIngredientReplayItemVideoList({ type: this.curNow, ingredientreplayitem_id: this.id }).then(res => {
+			let params = {
+				type: this.curNow,
+				ingredientreplayitem_id: this.id
+			};
+
+			// 如果有日期参数，添加到请求中
+			if (this.date) {
+				params.date = this.date;
+			}
+
+			this.$api.getIngredientReplayItemVideoList(params).then(res => {
 				this.videoList = res.data;
 			});
 		},

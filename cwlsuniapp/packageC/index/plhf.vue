@@ -14,7 +14,7 @@
 		<view class="recommends bg-white u-m-t-30">
 			<view class="u-font-30 title">
 				<text class="stroke"></text>
-				配料项目
+				配料全程回放
 			</view>
 			<view class="goods-list">
 				<view class="item" v-for="(item, index) in recommends" :key="index" @click="goPage('/packageC/ingredientreplay/videos?id=' + item.id + '&title=' + item.title)">
