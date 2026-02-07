@@ -100,8 +100,25 @@
 				<view style="margin-top: 20rpx;">
 					<u-subsection :list="list" active-color="#fff" buttonColor="#367bf7" mode="button"  :current="curNow" @change="sectionChange"></u-subsection>
 				</view>
-				
-				<view>
+
+				<!-- 配料回放入口（仅在选中"配料回放"tab且有配置地址时显示） -->
+				<view v-if="curNow === 3 && currentDateUrl" class="date-url-entry" @click="goDateUrl">
+					<view class="entry-content">
+						<view class="entry-title">查看本日配料回放</view>
+						<view class="entry-date">{{datearr[riindex] ? datearr[riindex].riqi : ''}}</view>
+					</view>
+					<view class="entry-arrow">
+						<u-icon name="arrow-right" size="40" color="#fff"></u-icon>
+					</view>
+				</view>
+
+				<!-- 未配置地址的提示（仅在选中"配料回放"tab且无配置地址时显示） -->
+				<view v-if="curNow === 3 && !currentDateUrl" class="no-date-url-tip">
+					<view class="tip-text">当前日期暂无配料回放内容</view>
+				</view>
+
+				<!-- 其他分类显示视频列表 -->
+				<view v-if="curNow !== 3">
 					<view class="item"  v-for="(item, index) in videoList">
 						<view class="head" style="display: flex;justify-content: space-between;align-items: center;">
 							<view>
@@ -124,13 +141,12 @@
 								<view  @click="openVideo(index)" style="padding: 4rpx 40rpx; background: #f9511f;border-radius: 100rpx;">点击回放</view>
 							</view>
 						</view>
-						
+
 						<view style="font-size: 24rpx;">
 							亮点:{{item.liangdian}}
 						</view>
 					</view>
 				</view>
-				
 			</view>
 		</view>
 		<view class="bg-white u-m-t-30">
@@ -403,6 +419,21 @@ export default {
 				}
 			}
 			return arr.join('-');
+		},
+		// 当前选中日期对应的地址
+		currentDateUrl() {
+			if (!this.info.date_urls || !this.datearr[this.riindex]) {
+				return null;
+			}
+
+			try {
+				const selectedDate = this.datearr[this.riindex].riqi; // "2026-02-06"
+				const dateUrls = JSON.parse(this.info.date_urls);
+				return dateUrls[selectedDate] || null;
+			} catch (e) {
+				console.error('解析日期地址失败', e);
+				return null;
+			}
 		}
 	},
 	data() {
@@ -449,23 +480,20 @@ export default {
 
 		},
 		sectionChange(index) {
-			// 如果点击的是"配料回放"（index=3），则跳转到溯源回放页面
-			if (index === 3) {
-				if (this.info.traceability_url) {
-					// 使用 goPage 方法，会触发路由拦截器进行路径转换
-					this.goPage(this.info.traceability_url);
-				} else {
-					uni.showToast({
-						title: '暂无配料回放',
-						icon: 'none'
-					});
-				}
-				return;
-			}
-
-			// 其他分类正常显示视频列表
+			// 设置当前选中的tab
 			this.curNow = index;
-			this.getVideoList()
+
+			// 如果不是配料回放tab，加载视频列表
+			if (index !== 3) {
+				this.getVideoList();
+			}
+			// 如果是配料回放tab，不需要做额外操作，computed会自动计算currentDateUrl
+		},
+		// 跳转到日期配置的地址
+		goDateUrl() {
+			if (this.currentDateUrl) {
+				this.goPage(this.currentDateUrl);
+			}
 		},
 		xx(index){
 			this.riindex = index
@@ -531,13 +559,6 @@ export default {
 						});
 					}
 					// #endif
-
-					// 如果是通过二维码扫码进入且type=3（配料回放），则跳转到溯源回放页面
-					if (this.targetType === 3 && res.data.traceability_url) {
-						// 使用 goPage 方法，会触发路由拦截器进行路径转换
-						this.goPage(res.data.traceability_url);
-						return;
-					}
 
 					this.loading = false;
 					//取同类推荐商品
@@ -623,6 +644,57 @@ page {
 	border-radius: 10rpx;
 	line-height: 50rpx;
 	color: #fff;
+}
+
+/* 日期地址入口样式 */
+.date-url-entry {
+	margin-top: 40rpx;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	border-radius: 20rpx;
+	padding: 40rpx;
+	display: flex;
+	align-items: center;
+	box-shadow: 0 10rpx 30rpx rgba(102, 126, 234, 0.3);
+	transition: all 0.3s;
+}
+
+.date-url-entry:active {
+	transform: scale(0.98);
+	box-shadow: 0 5rpx 15rpx rgba(102, 126, 234, 0.3);
+}
+
+.entry-content {
+	flex: 1;
+	color: #fff;
+}
+
+.entry-title {
+	font-size: 36rpx;
+	font-weight: bold;
+	margin-bottom: 10rpx;
+}
+
+.entry-date {
+	font-size: 24rpx;
+	opacity: 0.9;
+}
+
+.entry-arrow {
+	margin-left: 20rpx;
+}
+
+/* 无配置地址提示样式 */
+.no-date-url-tip {
+	margin-top: 40rpx;
+	background: #f5f5f5;
+	border-radius: 20rpx;
+	padding: 40rpx;
+	text-align: center;
+}
+
+.tip-text {
+	font-size: 28rpx;
+	color: #999;
 }
 </style>
 <style lang="scss" scoped>
