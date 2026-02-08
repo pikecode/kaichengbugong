@@ -76,8 +76,9 @@
 					<!-- #endif -->
 				</view>
 				<u-cell-item icon="account-fill" title="个人资料" @click="goPage('/packageD/my/profile', true)"></u-cell-item>
-				<u-cell-item icon="question-circle" title="帮助中心" @click="goPage('/packageD/help/index')"></u-cell-item>
-				<u-cell-item icon="info-circle-fill" title="关于我们" @click="goPage('/packageD/page/page?diyname=aboutus')"></u-cell-item>
+				<!-- 临时隐藏，等后台配置内容后再显示 -->
+				<!-- <u-cell-item icon="question-circle" title="帮助中心" @click="goPage('/packageD/help/index')"></u-cell-item> -->
+				<!-- <u-cell-item icon="info-circle-fill" title="关于我们" @click="goPage('/packageD/page/page?diyname=aboutus')"></u-cell-item> -->
 				<u-cell-item icon="backspace" v-if="vuex_token" title="退出登录" @click="goPage('out')"></u-cell-item>
 			</u-cell-group>
 		</view>
