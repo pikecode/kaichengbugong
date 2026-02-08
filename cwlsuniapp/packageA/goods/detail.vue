@@ -353,6 +353,10 @@ export default {
 		// #endif
 	],
 	onLoad(e) {
+		// 调试：显示所有参数
+		console.log('========== 页面加载参数 ==========');
+		console.log('完整参数 e:', JSON.stringify(e));
+
 		this.id = e.id || e.goods_id || '';
 
 		// 接收日期参数（用于二维码扫码定位）
@@ -369,12 +373,58 @@ export default {
 		let invite_id = e.invite_id || '';
 		if (e.scene) {
 			const scene = decodeURIComponent(e.scene);
-			let goods_id = this.$util.getQueryString('goods_id', scene);
-			if (goods_id) {
+			console.log('========== 扫码进入 ==========');
+			console.log('原始 scene:', e.scene);
+			console.log('解码后 scene:', scene);
+
+			// 给 scene 加上 ? 前缀，让 getQueryString 能正确解析第一个参数
+			const sceneWithPrefix = '?' + scene;
+			console.log('添加前缀后:', sceneWithPrefix);
+
+			// 从 scene 中解析商品ID（优先使用 id，兼容 goods_id）
+			let id = this.$util.getQueryString('id', sceneWithPrefix);
+			let goods_id = this.$util.getQueryString('goods_id', sceneWithPrefix);
+			console.log('解析 id:', id);
+			console.log('解析 goods_id:', goods_id);
+
+			if (id) {
+				this.id = id;
+				console.log('✅ 使用 id:', this.id);
+			} else if (goods_id) {
 				this.id = goods_id;
+				console.log('✅ 使用 goods_id:', this.id);
+			} else {
+				console.log('❌ 未解析到商品ID！');
 			}
-			invite_id = this.$util.getQueryString('invite_id', scene) || invite_id;
+
+			invite_id = this.$util.getQueryString('invite_id', sceneWithPrefix) || invite_id;
+
+			// 从 scene 中解析日期和分类参数（扫码时参数都在 scene 中）
+			let date = this.$util.getQueryString('date', sceneWithPrefix);
+			console.log('解析 date:', date);
+			if (date) {
+				// 将 20260212 转换为 2026-02-12 格式
+				if (date.length === 8 && /^\d{8}$/.test(date)) {
+					date = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
+					console.log('✅ 日期转换:', date);
+				}
+				this.targetDate = date;
+			}
+			let type = this.$util.getQueryString('type', sceneWithPrefix);
+			console.log('解析 type:', type);
+			if (type !== null && type !== '') {
+				this.curNow = parseInt(type);
+				this.targetType = parseInt(type);
+				console.log('✅ 分类设置:', this.curNow);
+			}
 		}
+
+		console.log('========== 最终参数 ==========');
+		console.log('商品ID:', this.id);
+		console.log('目标日期:', this.targetDate);
+		console.log('目标分类:', this.targetType);
+		console.log('===================================');
+
 		if (invite_id) {
 			this.$u.vuex('vuex_invite_id', invite_id);
 		}
@@ -509,14 +559,54 @@ export default {
 			// var thas - t
 			this.$api.getdateList({ date:date }).then(res => {
 				this.datearr = res.data;
+				console.log('📅 日期列表加载完成，共', this.datearr.length, '个日期');
+				console.log('📍 目标日期:', this.targetDate);
 
 				// 如果有目标日期，自动选择对应的日期
 				if (this.targetDate && this.datearr.length > 0) {
-					const targetIndex = this.datearr.findIndex(item => item.riqi === this.targetDate);
+					console.log('🔍 开始查找目标日期...');
+
+					// 打印所有日期，方便对比
+					this.datearr.forEach((item, index) => {
+						console.log(`  [${index}] riqi: "${item.riqi}"`);
+					});
+
+					let targetIndex = this.datearr.findIndex(item => item.riqi === this.targetDate);
+					console.log('查找结果 targetIndex:', targetIndex);
+
 					if (targetIndex !== -1) {
+						// 日期存在于列表中
 						this.riindex = targetIndex;
+						console.log('✅ 日期定位成功! riindex =', this.riindex);
 						// 更新年月显示
 						const dateObj = new Date(this.targetDate);
+						this.dy = dateObj.getFullYear() + "-" + (dateObj.getMonth() + 1);
+						console.log('年月显示:', this.dy);
+					} else {
+						// 日期不存在，手动添加到列表
+						console.log('⚠️ 目标日期不在列表中，手动添加...');
+
+						// 从日期字符串解析出显示信息
+						const dateObj = new Date(this.targetDate);
+						const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+						const weekDay = weekDays[dateObj.getDay()];
+						const day = dateObj.getDate();
+
+						// 构造日期对象（与现有格式一致）
+						const dateItem = {
+							riqi: this.targetDate,
+							txt: '周' + weekDay,
+							day: day
+						};
+
+						// 插入到列表开头
+						this.datearr.unshift(dateItem);
+						this.riindex = 0;
+
+						console.log('✅ 已添加日期到列表:', dateItem);
+						console.log('riindex =', this.riindex);
+
+						// 更新年月显示
 						this.dy = dateObj.getFullYear() + "-" + (dateObj.getMonth() + 1);
 					}
 					this.targetDate = null; // 清空，避免重复触发
