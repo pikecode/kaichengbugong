@@ -51,10 +51,6 @@
 			let pages = getCurrentPages();
 			// 页面栈中的最后一个即为项为当前页面，route属性为页面路径
 			this.pageUrl = pages[pages.length - 1].route;
-			console.log('========== fa-tabbar created ==========');
-			console.log('当前页面 pageUrl:', this.pageUrl);
-			console.log('tabbar 配置:', this.tabbar);
-			console.log('======================================');
 		},
 		computed: {
 			elIconPath() {
@@ -199,21 +195,11 @@
 				//同一个页面不做处理
 				// let path = this.$util.getPath(this.tabbar.list[index].path);
 				let path = this.tabbar.list[index].path;
-				console.log('========== switchTab ==========');
-				console.log('点击的 tab index:', index);
-				console.log('目标路径 path:', path);
-				console.log('当前页面 pageUrl:', this.pageUrl);
-				console.log('path == pageUrl:', path == this.pageUrl);
-				console.log('path == "/" + pageUrl:', path == '/' + this.pageUrl);
-				console.log('isPathFullMatch:', this.isPathFullMatch(path));
-
 				if (path == this.pageUrl || path == '/' + this.pageUrl || this.isPathFullMatch(path)) {
-					console.log('已经在当前页面，不跳转');
 					return;
 				}
 				if (this.tabbar.list[index].path.indexOf('http') != -1) {
 					//外部链接
-					console.log('外部链接跳转');
 					this.$u.vuex('vuex_webs', {
 						path: this.tabbar.list[index].path,
 						title: this.tabbar.list[index].text
@@ -224,20 +210,16 @@
 				// 发出事件和修改v-model绑定的值
 				this.$emit('change', index);
 				if (this.tabbar.list[index].path) {
-					console.log('准备跳转到:', this.tabbar.list[index].path);
 					// tabBar 页面必须使用 switchTab，不能使用 redirectTo
 					this.$u.route({
 						type: 'switchTab',
 						url: this.tabbar.list[index].path
 					});
-					console.log('跳转命令已执行');
 				} else {
 					// 如果配置了papgePath属性，将不会双向绑定v-model传入的value值
 					// 因为这个模式下，不再需要v-model绑定的value值了，而是通过getCurrentPages()适配
-					console.log('emit input event');
 					this.$emit('input', index);
 				}
-				console.log('===============================');
 			},
 			// 获取凸起按钮外层元素的left值，让其水平居中
 			getMidButtonLeft() {

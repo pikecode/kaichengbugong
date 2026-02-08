@@ -60,7 +60,6 @@ const install = function(vm) {
 			for (let oldPath in pathMappings) {
 				if (route.url.startsWith(oldPath)) {
 					route.url = route.url.replace(oldPath, pathMappings[oldPath]);
-					console.log('[路径兼容] 旧路径已转换:', oldPath, '->', pathMappings[oldPath]);
 					break;
 				}
 			}
