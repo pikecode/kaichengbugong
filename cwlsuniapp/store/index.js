@@ -90,12 +90,6 @@ const store = new Vuex.Store({
 					"text": "首页"
 				},
 				{
-					"path": "pages/category/index",
-					"image": "static/tabbar/category.png",
-					"selectedImage": "static/tabbar/category-hl.png",
-					"text": "分类"
-				},
-				{
 					"path": "pages/cart/cart",
 					"image": "static/tabbar/cart.png",
 					"selectedImage": "static/tabbar/cart-hl.png",

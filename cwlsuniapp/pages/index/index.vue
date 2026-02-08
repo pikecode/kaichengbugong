@@ -112,10 +112,10 @@
 		<view class="index-content">
 			<view class="u-font-30 title">
 				<text class="stroke"></text>
-				<text style="color: #ff0000;">到供应商处溯源，全程回放</text>
+				<text style="color: #ff0000;">配料全程回放</text>
 			</view>
 			<view class="goods-list">
-				<view class="item" v-for="(item, index) in sy" :key="index" @click="goPage('/packageC/index/sycp?id=' + item.id)">
+				<view class="item" v-for="(item, index) in plhf" :key="index" @click="goPage('/packageC/index/plhf?id=' + item.id)">
 					<view class="images"><image :src="item.image" mode="aspectFill"></image></view>
 					<view class="u-p-15 name">
 						<text class="u-line-2">{{ item.title }}</text>
@@ -130,10 +130,10 @@
 		<view class="index-content">
 			<view class="u-font-30 title">
 				<text class="stroke"></text>
-				<text style="color: #ff0000;">配料全程回放</text>
+				<text style="color: #ff0000;">到供应商处溯源，全程回放</text>
 			</view>
 			<view class="goods-list">
-				<view class="item" v-for="(item, index) in plhf" :key="index" @click="goPage('/packageC/index/plhf?id=' + item.id)">
+				<view class="item" v-for="(item, index) in sy" :key="index" @click="goPage('/packageC/index/sycp?id=' + item.id)">
 					<view class="images"><image :src="item.image" mode="aspectFill"></image></view>
 					<view class="u-p-15 name">
 						<text class="u-line-2">{{ item.title }}</text>

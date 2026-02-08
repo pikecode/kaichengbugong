@@ -80,7 +80,7 @@
 
 		<view class="bg-white u-m-t-30">
 			<view style="padding: 20rpx;">
-				<view style="width: 100%;text-align: center;padding: 10px;font-size: 30rpx;font-weight: 900;">
+				<view style="width: 100%;text-align: center;padding: 10px;font-size: 30rpx;font-weight: 900;color: #ff0000;">
 					选择产品生产日期，查看该产品生产投料全过程
 				</view>
 				 <!-- <view style="width: 100%;text-align: center;padding: 10px;font-size: 30rpx;font-weight: 900;">可查看该件商品投料溯源</view> -->
@@ -435,14 +435,17 @@ export default {
 		if (this.vuex_token) {
 			this.getCartNums();
 		}
-		
-		// 获取当前年份
-		const currentYear = new Date().getFullYear();
-		 
-		// 获取当前月份，需要加1，因为getMonth返回的月份是从0开始计算的
-		const currentMonth = new Date().getMonth() + 1;
-		
-		this.dy = currentYear+"-"+currentMonth
+
+		// 只在首次进入时设置当前年月，避免返回时重置用户选择
+		if (!this.dy || this.dy === "2024-10") {
+			// 获取当前年份
+			const currentYear = new Date().getFullYear();
+
+			// 获取当前月份，需要加1，因为getMonth返回的月份是从0开始计算的
+			const currentMonth = new Date().getMonth() + 1;
+
+			this.dy = currentYear+"-"+currentMonth
+		}
 	},
 	
 	computed: {

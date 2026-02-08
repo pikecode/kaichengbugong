@@ -11,7 +11,6 @@ const install = function(vm) {
 				// packageB: 订单相关
 				'/pages/order/list': '/packageB/order/list',
 				'/pages/order/detail': '/packageB/order/detail',
-				'/pages/order/evaluate': '/packageB/order/evaluate',
 
 				// packageC: 溯源和配料回放
 				'/pages/index/sycp': '/packageC/index/sycp',
@@ -19,30 +18,41 @@ const install = function(vm) {
 				'/pages/index/sycpvideo': '/packageC/index/sycpvideo',
 				'/pages/ingredientreplay/': '/packageC/ingredientreplay/',
 
-				// packageD: 其他页面
-				'/pages/address/': '/packageD/address/',
-				'/pages/article/': '/packageD/article/',
-				'/pages/coupon/': '/packageD/coupon/',
-				'/pages/distribution/': '/packageD/distribution/',
-				'/pages/feedback/': '/packageD/feedback/',
-				'/pages/footprint/': '/packageD/footprint/',
-				'/pages/integral/': '/packageD/integral/',
-				'/pages/invoice/': '/packageD/invoice/',
-				'/pages/level/': '/packageD/level/',
-				'/pages/login/': '/packageD/login/',
-				'/pages/message/': '/packageD/message/',
-				'/pages/notice/': '/packageD/notice/',
+				// packageD: 个人中心相关
+				'/pages/my/profile': '/packageD/my/profile',
+				'/pages/my/collect': '/packageD/my/collect',
+
+				// packageD: 登录相关（分包部分）
+				'/pages/login/auth': '/packageD/login/auth',
+				'/pages/login/openid': '/packageD/login/openid',
+				'/pages/login/register': '/packageD/login/register',
+				'/pages/login/forgetpwd': '/packageD/login/forgetpwd',
+
+				// packageD: 订单售后相关
 				'/pages/order/aftersale': '/packageD/order/aftersale',
 				'/pages/order/apply': '/packageD/order/apply',
 				'/pages/order/logistics': '/packageD/order/logistics',
 				'/pages/order/payment': '/packageD/order/payment',
-				'/pages/order/refund': '/packageD/order/refund',
-				'/pages/payment/': '/packageD/payment/',
-				'/pages/recharge/': '/packageD/recharge/',
-				'/pages/refundreason/': '/packageD/refundreason/',
-				'/pages/returnreason/': '/packageD/returnreason/',
-				'/pages/serve/': '/packageD/serve/',
-				'/pages/wallet/': '/packageD/wallet/',
+
+				// packageD: 地址管理
+				'/pages/address/': '/packageD/address/',
+
+				// packageD: 优惠券
+				'/pages/coupon/': '/packageD/coupon/',
+
+				// packageD: 评论相关
+				'/pages/remark/': '/packageD/remark/',
+
+				// packageD: 积分相关
+				'/pages/score/': '/packageD/score/',
+
+				// packageD: 签到相关
+				'/pages/signin/': '/packageD/signin/',
+
+				// packageD: 其他
+				'/pages/video/': '/packageD/video/',
+				'/pages/page/': '/packageD/page/',
+				'/pages/help/': '/packageD/help/',
 				'/pages/webview/': '/packageD/webview/'
 			};
 
