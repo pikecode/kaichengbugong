@@ -11,7 +11,8 @@
 				</view>
 
 				<view>
-					<view class="item"  v-for="(item, index) in videoList" :key="index">
+					<!-- 视频列表 (type=0或1) -->
+					<view v-if="curNow <= 1" class="item"  v-for="(item, index) in videoList" :key="index">
 						<view class="head" style="display: flex;justify-content: space-between;align-items: center;">
 							<view>
 								<view class="" style="padding: 3px 5px;background: #2279fb; font-size: 24rpx;border-radius: 4rpx;">
@@ -35,6 +36,31 @@
 
 						<view style="margin-top: 20rpx;display: flex;justify-content: flex-end;" >
 							<view  @click="openVideo(index)" style="padding: 4rpx 40rpx; background: #f9511f;border-radius: 100rpx;width: 200rpx;text-align: center;">点击回放</view>
+						</view>
+					</view>
+
+					<!-- 图片列表 (type=2 有封条，不掉包) -->
+					<view v-if="curNow === 2" class="image-item" v-for="(item, index) in videoList" :key="index">
+						<view class="head" style="display: flex;justify-content: space-between;align-items: center;">
+							<view>
+								<view class="" style="padding: 3px 5px;background: #2279fb; font-size: 24rpx;border-radius: 4rpx;">
+									{{item.tag}}
+								</view>
+							</view>
+						</view>
+						<view style="margin-top: 20rpx;">
+							<view style="font-size: 50rpx;">
+								{{item.title}}
+							</view>
+						</view>
+
+						<view style="font-size: 24rpx;margin-top: 20rpx;" v-if="item.liangdian">
+							说明:{{item.liangdian}}
+						</view>
+
+						<!-- 图片展示 -->
+						<view style="margin-top: 20rpx;" v-if="item.image">
+							<image :src="item.image" mode="widthFix" style="width: 100%; border-radius: 10rpx;" @click="previewImage(item.image)"></image>
 						</view>
 					</view>
 				</view>
@@ -70,7 +96,7 @@ export default {
 			id: '',
 			date: '',  // 日期参数
 			cart_nums: 0,
-			list: ['配料全程回放', '精彩瞬间'],
+			list: ['配料全程回放', '精彩瞬间', '有封条，不掉包'],
 			curNow: 0,
 			videoList: [],
 			videoshow: false,
@@ -78,6 +104,12 @@ export default {
 		};
 	},
 	methods: {
+		previewImage(url) {
+			uni.previewImage({
+				urls: [url],
+				current: url
+			});
+		},
 		ss() {
 			this.videoshow = false;
 		},
@@ -133,6 +165,13 @@ page {
 </style>
 <style lang="scss" scoped>
 .item{
+	background: #7cc5ef;
+	padding: 40rpx;
+	color: #fff;
+	border-radius: 10rpx;
+	margin-top: 20rpx;
+}
+.image-item{
 	background: #7cc5ef;
 	padding: 40rpx;
 	color: #fff;
