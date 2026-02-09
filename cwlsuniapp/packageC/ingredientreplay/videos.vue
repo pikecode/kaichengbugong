@@ -41,25 +41,8 @@
 
 					<!-- 图片列表 (type=2 有封条，不掉包) -->
 					<view v-if="curNow === 2" class="image-item" v-for="(item, index) in videoList" :key="index">
-						<view class="head" style="display: flex;justify-content: space-between;align-items: center;">
-							<view>
-								<view class="" style="padding: 3px 5px;background: #2279fb; font-size: 24rpx;border-radius: 4rpx;">
-									{{item.tag}}
-								</view>
-							</view>
-						</view>
-						<view style="margin-top: 20rpx;">
-							<view style="font-size: 50rpx;">
-								{{item.title}}
-							</view>
-						</view>
-
-						<view style="font-size: 24rpx;margin-top: 20rpx;" v-if="item.liangdian">
-							说明:{{item.liangdian}}
-						</view>
-
-						<!-- 图片展示 -->
-						<view style="margin-top: 20rpx;" v-if="item.image">
+						<!-- 只显示图片 -->
+						<view v-if="item.image">
 							<image :src="item.image" mode="widthFix" style="width: 100%; border-radius: 10rpx;" @click="previewImage(item.image)"></image>
 						</view>
 					</view>
@@ -172,10 +155,6 @@ page {
 	margin-top: 20rpx;
 }
 .image-item{
-	background: #7cc5ef;
-	padding: 40rpx;
-	color: #fff;
-	border-radius: 10rpx;
 	margin-top: 20rpx;
 }
 .ac{
