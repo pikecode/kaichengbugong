@@ -24,8 +24,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 pk: 'id',
                 sortName: 'weigh',
                 sortOrder: 'desc',
-                fixedColumns: true,
-                fixedRightNumber: 1,
                 columns: [
                     [
                         {checkbox: true},
