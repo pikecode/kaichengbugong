@@ -117,17 +117,19 @@ class Goods extends Base
         $date = $this->request->get('date','');
 
         $where = [
-            'type' => $type,
             'traceabilitygoods_id' => $traceabilitygoods_id,
             'status' => 1
         ];
 
         // 如果传入了日期参数，添加日期筛选
         if (!empty($date)) {
-            $where['date'] = $date;
+            $where['riqi'] = $date;
         }
 
-        $list = Traceabilitygoodsvideo::where($where)->select();
+        $list = Traceabilitygoodsvideo::where($where)
+            ->whereRaw("FIND_IN_SET(?, type)", [$type])
+            ->order('weigh', 'desc')
+            ->select();
 
 
 
@@ -343,8 +345,11 @@ class Goods extends Base
 
         $goods_id = $this->request->get('goods_id',0);
 
-        $list = Video::where("riqi",$date)->where("type",$type)->where("shop_goods_id",$goods_id)->where("status", 1)->select();
-        
+        $list = Video::where("riqi",$date)->where("shop_goods_id",$goods_id)->where("status", 1)
+            ->whereRaw("FIND_IN_SET(?, type)", [$type])
+            ->order('weigh', 'desc')
+            ->select();
+
         $this->success("获取成功",$list);
 
     }
@@ -460,17 +465,19 @@ class Goods extends Base
         $date = $this->request->get('date','');
 
         $where = [
-            'type' => $type,
             'ingredientreplayitem_id' => $ingredientreplayitem_id,
             'status' => 1
         ];
 
         // 如果传入了日期参数，添加日期筛选
         if (!empty($date)) {
-            $where['date'] = $date;
+            $where['riqi'] = $date;
         }
 
-        $list = Ingredientreplayitemvideo::where($where)->select();
+        $list = Ingredientreplayitemvideo::where($where)
+            ->whereRaw("FIND_IN_SET(?, type)", [$type])
+            ->order('weigh', 'desc')
+            ->select();
 
 
 

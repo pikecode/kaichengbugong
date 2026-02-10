@@ -87,6 +87,11 @@ class Traceabilitygoodsvideo extends Model
         return is_array($value) ? implode(',', $value) : $value;
     }
 
+    protected function setRiqiAttr($value)
+    {
+        return $value === '' ? null : $value;
+    }
+
     // protected function setSTimeAttr($value)
     // {
     //     return $value === '' ? null : ($value && !is_numeric($value) ? strtotime($value) : $value);

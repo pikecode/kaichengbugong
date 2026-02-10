@@ -47,40 +47,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
             // 为表格绑定事件
             Table.api.bindevent(table);
-
-            // 初始化selectpage组件
-            $('.selectpage').selectPage({
-                searchField: 'title',
-                showField: 'title',
-                keyField: 'id'
-            });
-
-            // 筛选按钮事件
-            $(document).on('click', '.btn-filter', function() {
-                var ingredientreplayitem_id = $('input[name="ingredientreplayitem_id"]').val();
-                var type = $('select[name="type"]').val();
-
-                var queryString = '';
-                if (ingredientreplayitem_id) {
-                    queryString += '&ingredientreplayitem_id=' + ingredientreplayitem_id;
-                }
-                if (type !== '') {
-                    queryString += '&type=' + type;
-                }
-
-                table.bootstrapTable('refresh', {
-                    url: 'ingredientreplayitemvideo/index' + location.search + queryString
-                });
-            });
-
-            // 重置按钮事件
-            $(document).on('click', '.btn-reset', function() {
-                $('input[name="ingredientreplayitem_id"]').val('').trigger('change');
-                $('select[name="type"]').val('');
-                table.bootstrapTable('refresh', {
-                    url: 'ingredientreplayitemvideo/index' + location.search
-                });
-            });
         },
         add: function () {
             Controller.api.bindevent();

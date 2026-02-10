@@ -40,8 +40,9 @@ class Ingredientreplayitemvideo extends Model
     public function getTypeTextAttr($value, $data)
     {
         $value = $value ? $value : (isset($data['type']) ? $data['type'] : '');
+        $valueArr = explode(',', $value);
         $list = $this->getTypeList();
-        return isset($list[$value]) ? $list[$value] : '';
+        return implode(',', array_intersect_key($list, array_flip($valueArr)));
     }
 
 
@@ -56,6 +57,16 @@ class Ingredientreplayitemvideo extends Model
     public function getImageAttr($value, $data)
     {
         return cdnurl($value, true);
+    }
+
+    protected function setTypeAttr($value)
+    {
+        return is_array($value) ? implode(',', $value) : $value;
+    }
+
+    protected function setRiqiAttr($value)
+    {
+        return $value === '' ? null : $value;
     }
 
 

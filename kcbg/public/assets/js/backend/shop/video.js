@@ -32,7 +32,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'goods.title', title: __('Goods.title'), operate: 'LIKE'},
                         {field: 'video_url', title: __('Video_url'), operate: 'LIKE', formatter: Table.api.formatter.url},
                         {field: 'image', title: __('Image'), operate: false, events: Table.api.events.image, formatter: Table.api.formatter.image},
-                        {field: 'type', title: __('Type'), searchList: {"0":__('Type 0'),"1":__('Type 1')}, operate:'FIND_IN_SET', formatter: Table.api.formatter.label},
+                        {field: 'type', title: __('Type'), searchList: {"0":__('商品溯源'),"1":__('精彩瞬间'),"2":__('多视角回放')}, operate:'FIND_IN_SET', formatter: Table.api.formatter.label},
                         {field: 'title', title: __('Title'), operate: 'LIKE'},
                         {field: 'tag', title: __('Tag'), operate: 'LIKE', formatter: Table.api.formatter.flag},
                         {field: 's_time', title: __('视频开始时间'), operate: false},

@@ -47,40 +47,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
             // 为表格绑定事件
             Table.api.bindevent(table);
-
-            // 初始化selectpage组件
-            $('.selectpage').selectPage({
-                searchField: 'title',
-                showField: 'title',
-                keyField: 'id'
-            });
-
-            // 筛选按钮事件
-            $(document).on('click', '.btn-filter', function() {
-                var traceabilitygoods_id = $('input[name="traceabilitygoods_id"]').val();
-                var type = $('select[name="type"]').val();
-
-                var queryString = '';
-                if (traceabilitygoods_id) {
-                    queryString += '&traceabilitygoods_id=' + traceabilitygoods_id;
-                }
-                if (type !== '') {
-                    queryString += '&type=' + type;
-                }
-
-                table.bootstrapTable('refresh', {
-                    url: 'traceabilitygoodsvideo/index' + location.search + queryString
-                });
-            });
-
-            // 重置按钮事件
-            $(document).on('click', '.btn-reset', function() {
-                $('input[name="traceabilitygoods_id"]').val('').trigger('change');
-                $('select[name="type"]').val('');
-                table.bootstrapTable('refresh', {
-                    url: 'traceabilitygoodsvideo/index' + location.search
-                });
-            });
         },
         add: function () {
             Controller.api.bindevent();

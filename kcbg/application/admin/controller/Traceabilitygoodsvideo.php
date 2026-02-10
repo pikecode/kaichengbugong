@@ -59,18 +59,6 @@ class Traceabilitygoodsvideo extends Backend
             }
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
 
-            // 添加溯源商品ID筛选
-            $traceabilitygoods_id = $this->request->get('traceabilitygoods_id');
-            if ($traceabilitygoods_id !== '' && $traceabilitygoods_id !== null) {
-                $where['traceabilitygoods_id'] = $traceabilitygoods_id;
-            }
-
-            // 添加类型筛选
-            $type = $this->request->get('type');
-            if ($type !== '' && $type !== null) {
-                $where['type'] = ['like', "%{$type}%"];
-            }
-
             $list = $this->model
                     ->with(['traceabilitygoods'])
                     ->where($where)

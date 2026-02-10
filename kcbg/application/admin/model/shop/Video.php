@@ -63,6 +63,11 @@ class Video extends Model
         return is_array($value) ? implode(',', $value) : $value;
     }
 
+    protected function setRiqiAttr($value)
+    {
+        return $value === '' ? null : $value;
+    }
+
 
     public function goods()
     {

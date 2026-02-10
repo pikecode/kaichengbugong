@@ -55,18 +55,6 @@ class Ingredientreplayitemvideo extends Backend
             }
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
 
-            // 添加配料项目ID筛选
-            $ingredientreplayitem_id = $this->request->get('ingredientreplayitem_id');
-            if ($ingredientreplayitem_id !== '' && $ingredientreplayitem_id !== null) {
-                $where['ingredientreplayitem_id'] = $ingredientreplayitem_id;
-            }
-
-            // 添加类型筛选
-            $type = $this->request->get('type');
-            if ($type !== '' && $type !== null) {
-                $where['type'] = ['like', "%{$type}%"];
-            }
-
             $list = $this->model
                     ->with(['ingredientreplayitem'])
                     ->where($where)
