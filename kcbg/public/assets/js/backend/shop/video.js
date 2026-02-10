@@ -12,6 +12,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     multi_url: 'shop/video/multi',
                     import_url: 'shop/video/import',
                     table: 'shop_video',
+                    dragsort_url: 'ajax/weigh',
                 }
             });
 
@@ -21,7 +22,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
-                sortName: 'id',
+                sortName: 'weigh',
+                sortOrder: 'desc',
                 fixedColumns: true,
                 fixedRightNumber: 1,
                 columns: [
@@ -41,6 +43,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'shichang', title: __('Shichang'), operate: 'LIKE'},
                         {field: 'liangdian', title: __('Liangdian'), operate: 'LIKE'},
                         {field: 'status', title: __('Status'), searchList: {"0":__('Status 0'),"1":__('Status 1')}, formatter: Table.api.formatter.status},
+                        {field: 'weigh', title: __('Weigh'), operate: false, sortable: true},
                         // {field: 'admin_id', title: __('Admin_id')},
                         {field: 'createtime', title: __('Createtime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
