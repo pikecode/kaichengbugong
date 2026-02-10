@@ -77,7 +77,7 @@
 				<text style="color: #ff0000;">点击产品图，看生产投料全程回放</text>
 			</view>
 			<view class="goods-list">
-				<view class="item" v-for="(item, index) in recommends" :key="index" @click="goPage('/packageA/goods/detail?id=' + item.id)">
+				<view class="item" v-for="(item, index) in displayRecommends" :key="index" @click="goPage('/packageA/goods/detail?id=' + item.id)">
 					<view class="images"><image :src="item.image" mode="aspectFill"></image></view>
 					<view class="u-p-15 name">
 						<text class="u-line-2">{{ item.title }}</text>
@@ -105,6 +105,13 @@
 					<view class="u-tips-color">暂无更多的推荐商品~</view>
 				</view>
 			</view>
+			<!-- 查看更多按钮 -->
+			<view class="u-flex u-row-center u-p-20" v-if="recommends.length > 4">
+				<view class="more-btn" @click="showAllRecommends = !showAllRecommends">
+					<text>{{ showAllRecommends ? '收起' : '查看更多' }}</text>
+					<u-icon :name="showAllRecommends ? 'arrow-up' : 'arrow-down'" size="24"></u-icon>
+				</view>
+			</view>
 			<!-- 加载更多 -->
 			<!-- <view class="u-p-b-30" v-if="recommends.length"><u-loadmore :status="has_more ? status : 'nomore'" /></view> -->
 		</view>
@@ -115,13 +122,20 @@
 				<text style="color: #ff0000;">配料全程回放</text>
 			</view>
 			<view class="goods-list">
-				<view class="item" v-for="(item, index) in plhf" :key="index" @click="goPage('/packageC/index/plhf?id=' + item.id)">
+				<view class="item" v-for="(item, index) in displayPlhf" :key="index" @click="goPage('/packageC/index/plhf?id=' + item.id)">
 					<view class="images"><image :src="item.image" mode="aspectFill"></image></view>
 					<view class="u-p-15 name">
 						<text class="u-line-2">{{ item.title }}</text>
 					</view>
 				</view>
 				<!-- 空数据 -->
+			</view>
+			<!-- 查看更多按钮 -->
+			<view class="u-flex u-row-center u-p-20" v-if="plhf.length > 4">
+				<view class="more-btn" @click="showAllPlhf = !showAllPlhf">
+					<text>{{ showAllPlhf ? '收起' : '查看更多' }}</text>
+					<u-icon :name="showAllPlhf ? 'arrow-up' : 'arrow-down'" size="24"></u-icon>
+				</view>
 			</view>
 			<!-- 加载更多 -->
 			<!-- <view class="u-p-b-30" v-if="recommends.length"><u-loadmore :status="has_more ? status : 'nomore'" /></view> -->
@@ -133,13 +147,20 @@
 				<text style="color: #ff0000;">到供应商处溯源，全程回放</text>
 			</view>
 			<view class="goods-list">
-				<view class="item" v-for="(item, index) in sy" :key="index" @click="goPage('/packageC/index/sycp?id=' + item.id)">
+				<view class="item" v-for="(item, index) in displaySy" :key="index" @click="goPage('/packageC/index/sycp?id=' + item.id)">
 					<view class="images"><image :src="item.image" mode="aspectFill"></image></view>
 					<view class="u-p-15 name">
 						<text class="u-line-2">{{ item.title }}</text>
 					</view>
 				</view>
 				<!-- 空数据 -->
+			</view>
+			<!-- 查看更多按钮 -->
+			<view class="u-flex u-row-center u-p-20" v-if="sy.length > 4">
+				<view class="more-btn" @click="showAllSy = !showAllSy">
+					<text>{{ showAllSy ? '收起' : '查看更多' }}</text>
+					<u-icon :name="showAllSy ? 'arrow-up' : 'arrow-down'" size="24"></u-icon>
+				</view>
 			</view>
 			<!-- 加载更多 -->
 			<!-- <view class="u-p-b-30" v-if="recommends.length"><u-loadmore :status="has_more ? status : 'nomore'" /></view> -->
@@ -177,7 +198,11 @@ export default {
 			hots: [],
 			recommends: [],
 			sy:[],
-			plhf:[]
+			plhf:[],
+			// 控制展开状态
+			showAllRecommends: false,
+			showAllSy: false,
+			showAllPlhf: false
 		};
 	},
 	onShow() {
@@ -209,6 +234,18 @@ export default {
 				this.navigateList = arr1;
 			}
 			return 1;
+		},
+		// 显示的推荐商品列表
+		displayRecommends() {
+			return this.showAllRecommends ? this.recommends : this.recommends.slice(0, 4);
+		},
+		// 显示的溯源列表
+		displaySy() {
+			return this.showAllSy ? this.sy : this.sy.slice(0, 4);
+		},
+		// 显示的配料回放列表
+		displayPlhf() {
+			return this.showAllPlhf ? this.plhf : this.plhf.slice(0, 4);
 		}
 	},
 	methods: {
@@ -392,6 +429,21 @@ page {
 				margin-left: 10rpx;
 			}
 		}
+	}
+}
+.more-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20rpx 40rpx;
+	background-color: #ffffff;
+	border-radius: 50rpx;
+	border: 1px solid #e9ebf3;
+	color: #606266;
+	font-size: 28rpx;
+	box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+	text {
+		margin-right: 10rpx;
 	}
 }
 </style>
