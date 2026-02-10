@@ -94,7 +94,7 @@ class Goods extends Base
 
         $traceability_id = $this->request->param('traceability_id/d');
 
-        $sy = Traceabilitygoods::where("traceability_id",$traceability_id)->select();
+        $sy = Traceabilitygoods::where("traceability_id",$traceability_id)->order('weigh', 'desc')->select();
 
         $this->success('获取成功', $sy);
 
@@ -442,7 +442,7 @@ class Goods extends Base
 
         $ingredientreplay_id = $this->request->param('ingredientreplay_id/d');
 
-        $sy = Ingredientreplayitem::where("ingredientreplay_id",$ingredientreplay_id)->select();
+        $sy = Ingredientreplayitem::where("ingredientreplay_id",$ingredientreplay_id)->order('weigh', 'desc')->select();
 
         $this->success('获取成功', $sy);
 
