@@ -1,0 +1,109 @@
+<style>
+    .row .input-group {
+        margin-bottom: 10px;
+    }
+
+    .row .input-group .btn-remove {
+        color: #fff;
+        background-color: #e74c3c;
+        cursor: pointer;
+    }
+
+    .row .spec_name {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .row .form-group .right {
+        flex: 1;
+        padding-left: 15px;
+    }
+    .form-horizontal .form-group{
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+    }
+    .panel .panel-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    [v-clock] {
+        display: none;
+    }
+</style>
+
+<div id="edit-form" class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-name" class="form-control" name="row[name]" type="text">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('规格属性')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div id="app" v-clock>
+                <!-- 规格名称录入 -->
+                <div class="row">
+                    <div class="col-sm-6 col-xs-6">
+                        <div class="form-group spec_name">
+                            <label class="control-label">规格名称:</label>
+                            <div class="right">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" v-model="spec_name">
+                                    <div class="input-group-btn">
+                                        <button @click="addSpec" class="btn btn-success">
+                                            <i class="fa fa-plus"></i>
+                                            {:__('添加规格')}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default" v-for="(spec,key) in specList" :key="key">
+                    <div class="panel-heading" style="padding:5px 15px;">
+                        <span>{{spec.name}}</span>
+                        <span class="btn btn-remove" @click="removeSpec(key)">
+                            <i class="fa fa-close"></i>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6" v-for="(val,index) in spec.value"
+                                 :key="index">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder=""
+                                           v-model="specList[key].value[index]">
+                                    <div class=" input-group-btn">
+                                        <span class="btn btn-remove" @click="removeSpecValue(key,index)">
+                                            <i class="fa fa-close"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                                <a href="javascript:;" class="btn btn-sm btn-success" @click="addSpecValue(key)"><i
+                                        class="fa fa-plus"></i>
+                                    {:__('Append')}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed btn-add-sku">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+
+</div>

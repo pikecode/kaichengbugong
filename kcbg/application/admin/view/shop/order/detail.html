@@ -1,0 +1,294 @@
+<style>
+    .panel-fieldlist .fieldlist dd ins {
+        width: 20%;
+    }
+
+    .panel-fieldlist .fieldlist dd input, .panel-fieldlist .fieldlist dd select {
+        width: 100%;
+    }
+
+    .list-group-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .groups {
+        display: flex;
+        align-items: center;
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .list-group .list-group-item .label {
+        padding: 5px 10px;
+    }
+
+    .table-goods > thead > tr > th, .table-goods > tbody > tr > th, .table-goods > thead > tr > td, .table-goods > tbody > tr > td {
+        vertical-align: middle;
+    }
+
+    .order-status {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .print-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    @media print {
+        .electronics, .btn-print-page, .memo-operate {
+            display: none;
+        }
+    }
+</style>
+<div id="app">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            订单信息
+            <a href="javascript:;" onclick="window.print();" class="btn btn-info btn-xs pull-right btn-print-page">
+                <i class="fa fa-print"></i>
+                打印
+            </a>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-6">
+                    <ul class="list-group">
+                        <button class="btn-refresh hidden"></button>
+                        <input type="hidden" id="order_id" value="{$row.id}">
+                        <input type="hidden" id="now-status" value="{$row.status}">
+                        <input type="hidden" id="amount" value="{$row.amount}">
+                        <input type="hidden" id="shippingfee" value="{$row.shippingfee}">
+                        <li class="list-group-item">订单号：{$row.order_sn}</li>
+                        <!--@formatter:off-->
+                        <li class="list-group-item order-status">
+                            <div>
+                                订单状态：
+                                {if $row['orderstate']==0}
+                                    {if $row['paystate'] == 0}
+                                        <span class="label label-danger">未付款</span>
+                                    {elseif $row['paystate'] == 1}
+
+                                        {if $row['shippingstate'] == 0}
+                                            <span class="label label-danger">待发货</span>
+                                        {elseif $row['shippingstate'] == 1}
+                                            <span class="label label-danger">已发货</span>
+                                        {elseif $row['shippingstate'] == 2}
+                                            <span class="label label-danger">待评价</span>
+                                        {/if}
+
+                                    {/if}
+                                {elseif $row['orderstate'] == 1}
+                                    <span class="label label-danger">已取消</span>
+                                {elseif $row['orderstate'] == 2}
+                                    <span class="label label-danger">已失效</span>
+                                {elseif $row['orderstate'] == 3}
+                                    <span class="label label-danger">已完成</span>
+                                {elseif $row['orderstate'] == 4}
+                                    <span class="label label-danger">退货/退款中</span>
+                                    {if $row['shippingstate'] == 0}
+                                        <span class="label label-danger">待发货</span>
+                                    {elseif $row['shippingstate'] == 1}
+                                        <span class="label label-danger">已发货</span>
+                                    {elseif $row['shippingstate'] == 2}
+                                        <span class="label label-danger">待评价</span>
+                                    {/if}
+                                {/if}
+                            </div>
+                            <div>
+                                {if $row['orderstate']==0 || $row['orderstate']==4}
+                                    {if $row['paystate'] == 0}
+                                        <button type="button" class="btn btn-success btn-status-click" data-order='{"orderstate":1}'>取消</button>
+                                        <button type="button" class="btn btn-success btn-status-click" data-order='{"paystate":1}'>设为已支付</button>
+                                    {elseif $row['paystate'] == 1}
+                                        {if $row['shippingstate'] == 0}
+                                            <button type="button" class="btn btn-success btn-deliver" data-expressname="{$row.expressname}" data-expressno="{$row.expressno}" data-type="0">发货</button>
+                                        {elseif $row['shippingstate'] == 1}
+                                            <button type="button" class="btn btn-success btn-deliver" data-expressname="{$row.expressname}" data-expressno="{$row.expressno}" data-type="1">修改快递</button>
+                                            <button type="button" class="btn btn-success btn-logistics" data-expressno="{$row.expressno}">查询物流</button>
+                                        {/if}
+                                        <button type="button" class="btn btn-success btn-status-click" data-order='{"orderstate":3}'>设为已完成</button>
+                                    {/if}
+                                {/if}
+                            </div>
+                        </li>
+                        <!--@formatter:on-->
+                        <li class="list-group-item">下单用户：{$row.user.nickname}（用户ID：{$row.user_id}）</li>
+                        <li class="list-group-item">商品费用：￥{$row.goodsprice}</li>
+                        <li class="list-group-item">快递费用：￥{$row.shippingfee}</li>
+                        <li class="list-group-item">折扣金额：￥{$row.discount}</li>
+                        <li class="list-group-item">订单金额：￥{$row.amount}</li>
+                        <li class="list-group-item">应付金额：￥{$row.saleamount}</li>
+                        <li class="list-group-item">实付金额：￥{$row.payamount}</li>
+                        <li class="list-group-item">
+                            <span style="width: 140px;">退款金额：￥{if !empty($row.refund)} {$row.refund} {else/}0.00{/if}</span>
+                            <span></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xs-6">
+                    <ul class="list-group">
+                        <li class="list-group-item">下单时间：{$row.createtime|date="Y-m-d H:i:s",###}</li>
+                        <li class="list-group-item">支付方法：{$row.method}</li>
+                        <li class="list-group-item">支付类型：{$row.paytype}</li>
+                        <li class="list-group-item">交易流水号：{$row.transactionid}</li>
+                        <li class="list-group-item">支付时间：{notempty name="row.paytime"}{$row.paytime|date="Y-m-d H:i:s",###}{/notempty}</li>
+                        <li class="list-group-item">退货时间：{notempty name="row.refundtime"}{$row.refundtime|date="Y-m-d H:i:s",###}{/notempty}</li>
+                        <li class="list-group-item">发货时间：{notempty name="row.shippingtime"}{$row.shippingtime|date="Y-m-d H:i:s",###}{/notempty}</li>
+                        <li class="list-group-item">收货时间：{notempty name="row.receivetime"}{$row.receivetime|date="Y-m-d H:i:s",###}{/notempty}</li>
+                        <li class="list-group-item">取消时间：{notempty name="row.canceltime"}{$row.canceltime|date="Y-m-d H:i:s",###}{/notempty}</li>
+                        <li class="list-group-item">
+                            <div class="groups">
+                                <span style="min-width: 75px;">备注信息：</span>
+                                <div>{$row.memo}</div>
+                                <input class="form-control hide" type="text" value="{$row.memo}">
+                            </div>
+                            <div class="memo-operate">
+                                <a class="btn btn-success btn-edit" data-status="edit" href="javascript:;">编辑</a>
+                                <a class="btn btn-success hide btn-cancel" data-status="cancel" href="javascript:;">取消</a>
+                                <a class="btn btn-success hide btn-save" data-status="save" data-field="memo" data-id="{$row.id}" href="javascript:;">保存</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  -->
+    <div class="panel panel-default">
+        <div class="panel-heading print-flex">
+            <span>收货(快递)信息</span>
+            <div class="electronics print-flex">
+                <!-- <input class="form-control selectpage" data-field="title" data-source="shop/electronics_order/index" id="electronics_id" placeholder="请选择电子面单模板">
+                <a href="javascript:;" class="btn btn-info btn-print-electronic" style="flex: 1;margin-left: 10px;" data-id="{$row.id}">
+                    <i class="fa fa-print"></i>
+                    打印快递单
+                </a> -->
+                <a href="javascript:;" class="btn btn-primary btn-print-invoice" style="flex: 1;margin-left: 10px;" data-id="{$row.id}">
+                    <i class="fa fa-print"></i>
+                    打印发货单
+                </a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-6">
+                    <p>收货人的姓名：{$row.receiver}</p>
+                    <p>收货人的手机：{$row.mobile}</p>
+                    <p>收货人的地址：{$row.address}</p>
+                </div>
+                <div class="col-xs-6">
+                    <p>发货快递名称：{$row.expressname}</p>
+                    <p>发货快递单号：{$row.expressno}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 商品信息 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span>商品信息</span>
+        </div>
+        <div class="panel-body">
+            <div class="goods">
+                <table class="table table-bordered table-goods">
+                    <thead>
+                    <tr>
+                        <th class="text-center">商品ID</th>
+                        <th class="text-center">货号</th>
+                        <th>名称</th>
+                        <th class="text-center">图片</th>
+                        <th class="text-center">属性</th>
+                        <th class="text-center">市场价</th>
+                        <th class="text-center">商城价</th>
+                        <th class="text-center">数量</th>
+                        <th class="text-center">实际价</th>
+                        <th class="text-center">售后状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name="row['order_goods']" item="item"}
+                    <tr>
+                        <th class="text-center" scope="row">{$item['goods_id']}</th>
+                        <th class="text-center">{$item['goods_sn']}</th>
+                        <td>{$item['title']}</td>
+                        <td class="text-center">
+                            <img src="{$item['image']}" class="img-sm" alt="">
+                        </td>
+                        <td class="text-center">{$item.attrdata}</td>
+                        <td class="text-center">{$item.marketprice}</td>
+                        <td class="text-center">{$item.price}</td>
+                        <td class="text-center">{$item.nums}</td>
+                        <td class="text-center">{$item.saleprice}</td>
+                        <td class="text-center">
+                            <div style="display: flex;justify-content: center;align-items: center;">
+                                <div>
+                                    {$item.salestate_text}
+                                </div>
+                                {if $item.salestate == 1 || $item.salestate == 2 || $item.salestate == 3}
+                                <div style="padding-left: 10px;">
+                                    <a class="btn btn-success btn-dialog {:$auth->check('shop/order_aftersales/index')?'':'hide'}" href="javascript:;" data-url="shop/order_aftersales/edit/order_goods_id/{$item.id}" title="审核售后">审核售后</a>
+                                </div>
+                                {/if}
+                            </div>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span>订单操作日志</span>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-goods">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>操作人</th>
+                <th>操作记录</th>
+                <th>操作时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach name="row['order_action']" item="item"}
+            <tr>
+                <th scope="row">{$key+1}</th>
+                <td>{$item.operator}</td>
+                <td>{$item.memo}</td>
+                <td>{$item.createtime|date="Y-m-d H:i:s",###}</td>
+            </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/html" id="expresstpl">
+    <div style="padding:15px 15px 0 15px;">
+        <ul class="list-group">
+            <li class="list-group-item shipper">
+                <label class="control-label" style="width:73px;">快递名称：</label>
+                <input class="form-control selectpage" data-primary-key="name" data-source="shop/shipper/index" style="flex:1;" id="expressname" value="<%=expressname%>"/>
+            </li>
+            <li class="list-group-item">
+                <label class="control-label" style="width:73px;">快递单号：</label>
+                <input class="form-control" style="flex:1;" id="expressno" value="<%=expressno%>"/>
+            </li>
+        </ul>
+    </div>
+</script>
+
+{include file="shop/order/invoicetpl" /}

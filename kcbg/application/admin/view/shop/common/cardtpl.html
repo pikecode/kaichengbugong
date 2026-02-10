@@ -1,0 +1,29 @@
+<style>
+    .sp_result_area{
+        z-index: 999 !important;
+    }
+</style>
+<script type="text/html" id="tplselect">
+    <form id="select-form" class="form-horizontal" style="padding: 15px 15px 0 15px;overflow: hidden;">
+        <div class="form-group">
+            <label for="c-template" class="control-label col-xs-12 col-sm-2">{:__('选择模板')}:</label>
+            <div class="col-xs-12 col-sm-8 select-template">
+                <input id="c-template" data-rule="required" data-field="title" data-source="shop/card/index" class="form-control selectpage" name="row[template]" type="text" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="c-source_id" class="control-label col-xs-12 col-sm-2">{:__('选择资源')}:</label>
+            <div class="col-xs-12 col-sm-8 c-select-goods">
+                <input id="c-source_id" data-rule="required" data-field="title" data-source="shop/goods/index" class="form-control selectpage" name="row[source_id]" type="text" value="">
+            </div>
+        </div>
+    </form>
+</script>
+
+<script type="text/html" id="goodstemplte">
+    <input id="c-source_id" data-rule="required" data-field="title" data-source="shop/goods/index" class="form-control selectpage" name="row[source_id]" type="text" value="">
+</script>
+
+<script type="text/html" id="coupontemplte">
+    <input id="c-source_id" data-rule="required" data-source="shop/coupon/index" class="form-control selectpage" name="row[source_id]" type="text" value="">
+</script>

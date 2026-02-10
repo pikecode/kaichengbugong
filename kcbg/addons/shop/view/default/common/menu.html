@@ -1,0 +1,26 @@
+<div class="top-menu">
+    <ul class="list-unstyled">
+        {shop:catelist id="nav" type="top" condition="1=isnav"}
+        <li class="{if $nav.has_nav_child}dropdown{/if}">
+            <a href="{$nav.url}" {if $nav.has_nav_child}class="dropdown-toggle" data-toggle="dropdown"{/if}>
+                <i class="{$nav.icon}"></i>
+                <span>{$nav.name}</span>
+                {if $nav.has_nav_child}
+                <span class="indicator"><i class="fa fa-angle-right"></i></span>
+                {/if}
+            </a>
+            {if $nav.has_nav_child}
+            <div class="dropdown-menu">
+                <div class="dropdown-menu-wrapper p-3">
+                    <ul class="">
+                        {shop:catelist id="sub" type="son" typeid="nav['id']" condition="1=isnav"}
+                        <li><a href="{$sub.url}"><span>{$sub.name}</span></a></li>
+                        {/shop:catelist}
+                    </ul>
+                </div>
+            </div>
+            {/if}
+        </li>
+        {/shop:catelist}
+    </ul>
+</div>

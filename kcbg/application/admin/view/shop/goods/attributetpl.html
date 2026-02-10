@@ -1,0 +1,35 @@
+<script type="text/html" id="attributetpl">
+    <% for(let item of row){ %>
+        <% if (item.type == 'radio') { %>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2"><%=item.name%>:</label>
+            <div class="col-xs-12 col-sm-8">
+                <div class="radio">
+                    <% for (let res of item.attribute_value) { %>
+                        <label>
+                            <input id="row[attribute_ids][<%=item.id%>][]-<%=res.id%>" data-rule="<%=item.is_must>0?'checked':''%>"
+                            name="row[attribute_ids][<%=item.id%>][]" type="radio" value="<%=res.id%>" <%=attribute_ids.includes(res.id+'')?'checked':''%> />
+                            <%=res.name%>
+                        </label>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <% }else{ %>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-2"><%=item.name%>:</label>
+            <div class="col-xs-12 col-sm-8">
+                <div class="checkbox">
+                    <%  for (let [key, res] of item.attribute_value.entries()) { %>
+                        <label>
+                            <input id="row[attribute_ids][<%=item.id%>][]-<%=res.id%>" data-rule="<%=item.is_must>0?'checked':''%>"
+                            name="row[attribute_ids][<%=item.id%>][]" type="checkbox" value="<%=res.id%>" <%=attribute_ids.includes(res.id+'')?'checked':''%> />
+                            <%=res.name%>
+                        </label>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    <% } %>
+</script>

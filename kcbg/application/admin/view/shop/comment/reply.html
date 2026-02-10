@@ -1,0 +1,57 @@
+
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">   
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-content"  data-rule="required" class="form-control" cols="10" rows="5" name="row[content]"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8" style="display: flex;justify-content: flex-end;">
+            <a href="javascript:;" class="btn btn-success btn-reply">回复</a>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('回复列表')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <table class="table table-striped table-bordered table-hover table-nowrap">
+                <tbody>
+                    <tr>
+                        <th>序号</th>
+                        <th>回复内容</th>
+                        <th>回复时间</th>
+                        <th>操作</th>
+                    </tr>
+                    {foreach name="reply_list" item="item"}
+                    <tr>
+                        <td scope="row">{$key+1}</td>
+                        <td>
+                            <p>{$item.content}</p>
+                        </td>  
+                        <td>
+                            <p>{$item.createtime | date="Y-m-d H:i:s",###}</p>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="btn btn-xs btn-success btn-dialog {:$auth->check('shop/comment/edit')?'':'hide'}" data-url="shop/comment/edit/type/1/ids/{$item.id}" title="{:__('Edit')}">
+                                <i class="fa fa-pencil"></i> {:__('Edit')}
+                            </a>
+                            <a href="javascript:;" class="btn btn-xs btn-danger btn-delone btn-ajax {:$auth->check('shop/comment/del')?'':'hide'}" data-url="shop/comment/del/ids/{$item.id}" title="{:__('Del')}">
+                                <i class="fa fa-trash"></i> {:__('Del')}
+                            </a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <a class="btn btn-primary" onclick="Layer.closeAll()">{:__('关闭')}</a>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

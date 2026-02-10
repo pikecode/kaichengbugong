@@ -1,0 +1,60 @@
+
+<!-- 订单金额 -->
+<div class="row" style="margin-top:15px;">
+    <div class="col-xs-12">
+        <div class="panel panel-default panel-intro panel-statistics">
+            <div class="panel-body">
+                <!-- <h4>订单趋势</h4> -->
+                <div id="datefilter">
+                    <form id="form1" action="" role="form" novalidate class="form-inline">
+                        <a href="javascript:;" class="btn btn-primary btn-refresh" data-chart="chart1">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                        <a href="javascript:;" class="btn btn-success btn-filter">{:__('Today')}</a>
+                        <a href="javascript:;" class="btn btn-success btn-filter">{:__('Yesterday')}</a>
+                        <a href="javascript:;" class="btn btn-success btn-filter">{:__('Last 7 Days')}</a>
+                        <a href="javascript:;" class="btn btn-success btn-filter">{:__('Last 30 Days')}</a>
+                        <a href="javascript:;" class="btn btn-success btn-filter">{:__('Last month')}</a>
+                        <a href="javascript:;" class="btn btn-success btn-filter">{:__('This month')}</a>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control input-inline datetimerange" data-type="order" placeholder="指定日期" style="width:270px;">
+                        </div>
+                    </form>
+                </div>
+                <div id="echarts1" style="height:600px;width:100%;margin-top:15px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 订单数量 -->
+<div class="row" style="margin-top:30px;">
+    <div class="col-xs-12">
+        <div class="panel panel-default panel-intro panel-statistics">
+            <div class="panel-body">               
+                <div id="datefilter">
+                    <form id="form2" action="" role="form" novalidate class="form-inline">
+                        <a href="javascript:;" class="btn btn-primary btn-refresh" data-chart="chart2">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                        <a href="javascript:;" class="btn btn-success btn-filter">{:__('Today')}</a>
+                        <a href="javascript:;" class="btn btn-success btn-filter">{:__('Yesterday')}</a>
+                        <a href="javascript:;" class="btn btn-success btn-filter">{:__('Last 7 Days')}</a>
+                        <a href="javascript:;" class="btn btn-success btn-filter">{:__('Last 30 Days')}</a>
+                        <a href="javascript:;" class="btn btn-success btn-filter">{:__('Last month')}</a>
+                        <a href="javascript:;" class="btn btn-success btn-filter">{:__('This month')}</a>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control input-inline datetimerange" data-type="order" placeholder="指定日期" style="width:270px;">
+                        </div>
+                    </form>
+                </div>
+                <div id="echarts2" style="height:600px;width:100%;margin-top:15px;"></div>
+            </div>
+        </div>
+    </div>
+</div>

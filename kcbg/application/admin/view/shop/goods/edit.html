@@ -1,0 +1,643 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+
+    <div class="panel panel-default panel-intro">
+        <div class="panel-heading">
+            <ul class="nav nav-tabs nav-group">
+                <li class="active"><a href="#basics" data-toggle="tab">基础信息</a></li>
+                <li><a href="#skus" data-toggle="tab">规格信息</a></li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active in" id="basics">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Category')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-category_id" data-rule="required"
+                                data-source="shop/category/index/noKeyField/100" class="form-control selectpage"
+                                data-format-item="{spacer} {name}" name="row[category_id]" type="text"
+                                value="{$row.category_id|htmlentities}">
+                        </div>
+                    </div>
+                    <div id="attributes"></div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Brand')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-brand_id" data-source="shop/brand/index" class="form-control selectpage"
+                                name="row[brand_id]" type="text" value="{$row.brand_id|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-title" data-rule="required" class="form-control" name="row[title]" type="text"
+                                value="{$row.title|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Goods_sn')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-goods_sn" class="form-control" name="row[goods_sn]" type="text"
+                                value="{$row.goods_sn|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Subtitle')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-subtitle" data-rule="" class="form-control" name="row[subtitle]" type="text"
+                                value="{$row.subtitle|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Keywords')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-keywords" class="form-control" name="row[keywords]" type="text"
+                                value="{$row.keywords|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Description')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <textarea id="c-description" class="form-control" cols="10" rows="5"
+                                name="row[description]">{$row.description|htmlentities}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Marketprice')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-marketprice"  class="form-control" step="0.01"
+                                name="row[marketprice]" type="number" value="{$row.marketprice|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Price')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-price" data-rule="required" class="form-control" step="0.01" name="row[price]"
+                                type="number" value="{$row.price|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Stocks')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-stocks" data-rule="required" class="form-control" {if
+                                $row.spectype}disabled{/if} name="row[stocks]" type="number"
+                                value="{$row.stocks|htmlentities}">
+                            <div class="alert alert-warning-light">
+                                <i class="fa fa-info-circle"></i> 温馨提示<br>
+                                多规格商品规格请在商品列表完成录入<br>
+                                多规格商品库存值无需要修改，自动计算
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Image')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-image" data-rule="required" class="form-control" size="50"
+                                    name="row[image]" type="text" value="{$row.image|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-image" class="btn btn-danger faupload"
+                                            data-input-id="c-image"
+                                            data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp"
+                                            data-multiple="false" data-preview-id="p-image"><i class="fa fa-upload"></i>
+                                            {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-image" class="btn btn-primary fachoose"
+                                            data-input-id="c-image" data-mimetype="image/*" data-multiple="false"><i
+                                                class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-image"></ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Images')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-images" data-rule="required" class="form-control" size="50"
+                                    name="row[images]" type="text" value="{$row.images|htmlentities}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-images" class="btn btn-danger faupload"
+                                            data-input-id="c-images"
+                                            data-multiple="true" data-preview-id="p-images"><i class="fa fa-upload"></i>
+                                            {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-images" class="btn btn-primary fachoose"
+                                            data-input-id="c-images" data-mimetype="image/*" data-multiple="true"><i
+                                                class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-images"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-images"></ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <textarea id="c-content" class="form-control editor" rows="5" name="row[content]"
+                                cols="50">{$row.content|htmlentities}</textarea>
+                            <!-- <div style="margin-top:5px;">
+                                <a href="javascript:" class="btn btn-xs btn-success btn-card">{:__('插入卡片')}</a>
+                            </div> -->
+                        </div>
+                    </div>
+<!--                    <div class="form-group">-->
+<!--                        <label class="control-label col-xs-12 col-sm-2">{:__('Corner')}:</label>-->
+<!--                        <div class="col-xs-12 col-sm-8">-->
+<!--                            <input id="c-corner" class="form-control" name="row[corner]" type="text"-->
+<!--                                value="{$row.corner|htmlentities}">-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Flag')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+
+                            <select id="c-flag" class="form-control selectpicker" multiple="" name="row[flag][]">
+                                {foreach name="flagList" item="vo"}
+                                <option value="{$key}" {in name="key" value="$row.flag" }selected{/in}>{$vo}</option>
+                                {/foreach}
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Weight')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-weight" class="form-control" step="0.01" name="row[weight]" type="number"
+                                value="{$row.weight|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Freight')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-freight_id" data-rule="required" data-source="shop/freight/index"
+                                class="form-control selectpage" name="row[freight_id]" type="text"
+                                value="{$row.freight_id|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Guarantee')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-guarantee_ids" data-source="shop/guarantee/index" data-multiple="true"
+                                class="form-control selectpage" name="row[guarantee_ids]" type="text"
+                                value="{$row.guarantee_ids|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Weigh')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-weigh" data-rule="required" class="form-control" name="row[weigh]"
+                                type="number" value="{$row.weigh|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+
+                            <div class="radio">
+                                {foreach name="statusList" item="vo"}
+                                <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[status]"
+                                        type="radio" value="{$key}" {in name="key" value="$row.status" }checked{/in} />
+                                    {$vo}</label>
+                                {/foreach}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">溯源回放地址:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-traceability_url" class="form-control" name="row[traceability_url]" type="text"
+                                value="{$row.traceability_url|htmlentities}" placeholder="粘贴溯源商品或配料回放生成的地址">
+                            <span class="help-block">
+                                示例：/pages/index/sycpvideo?id=5 或 /pages/ingredientreplay/videos?id=10<br>
+                                留空则不显示溯源回放入口
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">日期地址配置:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div id="date-url-list" style="margin-bottom: 10px;">
+                                <!-- 动态生成的日期地址列表 -->
+                            </div>
+                            <button type="button" class="btn btn-success btn-sm" onclick="addDateUrl()">
+                                <i class="fa fa-plus"></i> 添加日期地址
+                            </button>
+                            <input type="hidden" name="row[date_urls]" id="date-urls-input" value="{$row.date_urls|htmlentities}">
+                            <span class="help-block">
+                                为不同日期配置不同的小程序页面地址，用户在商品详情页选择日期后，点击"配料回放"tab可跳转到对应地址<br>
+                                地址可以是任意小程序页面，如：/pages/ingredientreplay/videos?id=10
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">视频列表二维码:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <!-- 日期选择 -->
+                            <div class="input-group" style="margin-bottom: 10px;">
+                                <span class="input-group-addon">日期</span>
+                                <input type="date" id="qr-date" class="form-control" value="">
+                            </div>
+
+                            <!-- 分类选择 -->
+                            <div class="input-group" style="margin-bottom: 10px;">
+                                <span class="input-group-addon">分类</span>
+                                <select id="qr-type" class="form-control">
+                                    <option value="0">生产全程回放</option>
+                                    <option value="1">精彩瞬间</option>
+                                    <option value="2">多视角回放</option>
+                                    <option value="3">配料回放</option>
+                                </select>
+                            </div>
+
+                            <!-- 环境选择 -->
+                            <div class="input-group" style="margin-bottom: 10px;">
+                                <span class="input-group-addon">环境</span>
+                                <select id="qr-env" class="form-control">
+                                    <option value="release">正式版</option>
+                                    <option value="trial" selected>体验版（测试用）</option>
+                                    <option value="develop">开发版</option>
+                                </select>
+                            </div>
+
+                            <!-- 生成按钮 -->
+                            <button type="button" class="btn btn-primary" onclick="generateQRCode()">
+                                <i class="fa fa-qrcode"></i> 生成二维码
+                            </button>
+
+                            <!-- 二维码显示区域 -->
+                            <div id="qrcode-container" style="margin-top: 20px; display: none;">
+                                <div id="qrcode" style="text-align: center; padding: 20px; background: #f5f5f5; border-radius: 5px;"></div>
+                                <div style="text-align: center; margin-top: 10px;">
+                                    <p id="qr-url-display" style="word-break: break-all; color: #666; font-size: 12px;"></p>
+                                    <button type="button" class="btn btn-success" onclick="downloadQRCode()">
+                                        <i class="fa fa-download"></i> 下载二维码
+                                    </button>
+                                </div>
+                            </div>
+
+                            <span class="help-block">
+                                生成二维码后，用户扫码可直接跳转到指定日期和分类的视频列表
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="skus">
+                    {include file="shop/goods/add_sku" /}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="goods-sku"></div>
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+
+{include file="shop/goods/attributetpl" /}
+{include file="shop/common/cardtpl" /}
+
+<!-- 引入 qrcode.js 库 -->
+<script src="/assets/js/qrcode.min.js"></script>
+
+<script>
+// 二维码生成功能
+var qrcodeInstance = null;
+
+// 日期地址配置相关
+var dateUrlsData = {};
+
+// 初始化日期地址列表
+function initDateUrls() {
+    var dateUrlsInput = document.getElementById('date-urls-input');
+    if (dateUrlsInput && dateUrlsInput.value && dateUrlsInput.value !== '') {
+        try {
+            var parsed = JSON.parse(dateUrlsInput.value);
+            if (typeof parsed === 'object' && parsed !== null) {
+                dateUrlsData = parsed;
+            } else {
+                dateUrlsData = {};
+            }
+        } catch (e) {
+            console.error('解析日期地址数据失败:', e);
+            dateUrlsData = {};
+        }
+    } else {
+        dateUrlsData = {};
+    }
+    renderDateUrlList();
+}
+
+// 添加日期地址
+function addDateUrl() {
+    Layer.open({
+        type: 1,
+        title: '添加日期地址',
+        area: ['600px', '400px'],
+        content: '<div style="padding: 20px;">' +
+                 '<div class="form-group">' +
+                 '    <label>选择日期：</label>' +
+                 '    <input type="date" id="date-picker-add" class="form-control" />' +
+                 '</div>' +
+                 '<div class="form-group">' +
+                 '    <label>小程序页面地址：</label>' +
+                 '    <input type="text" id="url-input-add" class="form-control" placeholder="/pages/ingredientreplay/videos?id=10" />' +
+                 '    <span class="help-block">可以是任意小程序页面，如：/pages/ingredientreplay/videos?id=10</span>' +
+                 '</div>' +
+                 '</div>',
+        btn: ['确定', '取消'],
+        yes: function(index) {
+            var date = document.getElementById('date-picker-add').value;
+            var url = document.getElementById('url-input-add').value;
+
+            // 验证日期
+            if (!date) {
+                Layer.msg('请选择日期', {icon: 2});
+                return;
+            }
+
+            // 验证地址
+            if (!url) {
+                Layer.msg('地址不能为空', {icon: 2});
+                return;
+            }
+
+            // 检查日期是否已存在
+            if (dateUrlsData[date]) {
+                Layer.confirm('该日期已存在配置，是否覆盖？', function(idx) {
+                    dateUrlsData[date] = url;
+                    updateDateUrlsInput();
+                    renderDateUrlList();
+                    Layer.close(idx);
+                    Layer.close(index);
+                    Layer.msg('添加成功', {icon: 1});
+                });
+            } else {
+                // 添加到数据
+                dateUrlsData[date] = url;
+                updateDateUrlsInput();
+                renderDateUrlList();
+                Layer.close(index);
+                Layer.msg('添加成功', {icon: 1});
+            }
+        }
+    });
+}
+
+// 编辑日期地址
+function editDateUrl(date) {
+    var currentUrl = dateUrlsData[date];
+
+    Layer.open({
+        type: 1,
+        title: '编辑日期地址',
+        area: ['600px', '400px'],
+        content: '<div style="padding: 20px;">' +
+                 '<div class="form-group">' +
+                 '    <label>日期：</label>' +
+                 '    <input type="date" id="date-picker-edit" class="form-control" value="' + date + '" />' +
+                 '</div>' +
+                 '<div class="form-group">' +
+                 '    <label>小程序页面地址：</label>' +
+                 '    <input type="text" id="url-input-edit" class="form-control" value="' + currentUrl + '" placeholder="/pages/ingredientreplay/videos?id=10" />' +
+                 '    <span class="help-block">可以是任意小程序页面，如：/pages/ingredientreplay/videos?id=10</span>' +
+                 '</div>' +
+                 '</div>',
+        btn: ['保存', '取消'],
+        yes: function(index) {
+            var newDate = document.getElementById('date-picker-edit').value;
+            var newUrl = document.getElementById('url-input-edit').value;
+
+            // 验证日期
+            if (!newDate) {
+                Layer.msg('请选择日期', {icon: 2});
+                return;
+            }
+
+            // 验证地址
+            if (!newUrl) {
+                Layer.msg('地址不能为空', {icon: 2});
+                return;
+            }
+
+            // 如果日期改变了，需要删除旧的
+            if (newDate !== date) {
+                delete dateUrlsData[date];
+            }
+
+            // 更新数据
+            dateUrlsData[newDate] = newUrl;
+            updateDateUrlsInput();
+            renderDateUrlList();
+            Layer.close(index);
+            Layer.msg('编辑成功', {icon: 1});
+        }
+    });
+}
+
+// 删除日期地址
+function removeDateUrl(date) {
+    Layer.confirm('确定要删除该日期地址配置吗？', function(index) {
+        delete dateUrlsData[date];
+        updateDateUrlsInput();
+        renderDateUrlList();
+        Layer.close(index);
+        Layer.msg('删除成功', {icon: 1});
+    });
+}
+
+// 更新隐藏字段
+function updateDateUrlsInput() {
+    document.getElementById('date-urls-input').value = JSON.stringify(dateUrlsData);
+}
+
+// 渲染日期地址列表
+function renderDateUrlList() {
+    var listHtml = '';
+    var dates = Object.keys(dateUrlsData).sort();
+
+    if (dates.length === 0) {
+        listHtml = '<div class="alert alert-info">暂无日期地址配置</div>';
+    } else {
+        listHtml = '<table class="table table-bordered table-hover">';
+        listHtml += '<thead><tr><th width="150">日期</th><th>小程序地址</th><th width="150">操作</th></tr></thead>';
+        listHtml += '<tbody>';
+
+        dates.forEach(function(date) {
+            listHtml += '<tr>';
+            listHtml += '<td>' + date + '</td>';
+            listHtml += '<td style="word-break: break-all;">' + dateUrlsData[date] + '</td>';
+            listHtml += '<td>';
+            listHtml += '<button type="button" class="btn btn-primary btn-xs" onclick="editDateUrl(\'' + date + '\')" style="margin-right: 5px;"><i class="fa fa-edit"></i> 编辑</button>';
+            listHtml += '<button type="button" class="btn btn-danger btn-xs" onclick="removeDateUrl(\'' + date + '\')"><i class="fa fa-trash"></i> 删除</button>';
+            listHtml += '</td>';
+            listHtml += '</tr>';
+        });
+
+        listHtml += '</tbody></table>';
+    }
+
+    document.getElementById('date-url-list').innerHTML = listHtml;
+}
+
+// 页面加载时初始化 - 使用原生JavaScript，避免jQuery依赖
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        initDateUrls();
+    });
+} else {
+    // DOM已经加载完成
+    initDateUrls();
+}
+
+function generateQRCode() {
+    // 获取商品ID（从URL或表单）
+    var goodsId = '{$row.id}';
+    if (!goodsId) {
+        Layer.msg('商品ID不存在，请先保存商品', {icon: 2});
+        return;
+    }
+
+    // 获取选择的日期和分类
+    var date = document.getElementById('qr-date').value;
+    var type = document.getElementById('qr-type').value;
+    var env = document.getElementById('qr-env').value;
+
+    // 验证日期是否选择
+    if (!date) {
+        Layer.msg('请选择日期', {icon: 2});
+        return;
+    }
+
+    // 构建小程序页面路径（使用分包路径）
+    var page = 'packageA/goods/detail';
+
+    // 将日期格式从 2026-02-12 转换为 20260212（节省2个字符，满足32字符限制）
+    var shortDate = date.replace(/-/g, '');
+
+    // 构建scene参数（小程序码的参数，最多32个字符）
+    // 例如：id=39&date=20260212&type=0 = 26字符
+    var scene = 'id=' + goodsId + '&date=' + shortDate + '&type=' + type;
+
+    // URL编码 scene 参数
+    var encodedScene = encodeURIComponent(scene);
+    var debugPath = page + '?scene=' + encodedScene;
+
+    // 显示URL信息
+    var envText = env === 'release' ? '正式版' : (env === 'trial' ? '体验版' : '开发版');
+    document.getElementById('qr-url-display').textContent = '环境：' + envText + ' | 小程序路径：/' + page + ' | 参数：' + scene;
+
+    // 清空之前的二维码
+    document.getElementById('qrcode').innerHTML = '<div style="text-align:center;padding:50px;">正在生成二维码...</div>';
+    document.getElementById('qrcode-container').style.display = 'block';
+
+    // 调用后端接口，使用微信 createQRCode API 生成标准方形二维码
+    $.ajax({
+        url: 'shop/ajax/create_qr_code',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            page: page,
+            scene: scene,
+            env_version: env
+        },
+        success: function(res) {
+            if (res.code === 1) {
+                // 生成成功，显示二维码图片
+                var html = '<div style="text-align:center;padding:20px;background:#fff;border-radius:8px;">';
+                html += '<img src="' + res.data + '?' + Date.now() + '" style="width:280px;" />';
+                html += '</div>';
+                html += '<div style="margin-top:20px;padding:15px;background:#f0f9ff;border:1px solid #0ea5e9;border-radius:5px;">';
+                html += '<div style="font-weight:bold;color:#0369a1;margin-bottom:10px;">📱 微信开发者工具调试路径：</div>';
+                html += '<div style="background:white;padding:10px;border-radius:3px;word-break:break-all;font-family:monospace;font-size:12px;color:#1e293b;">';
+                html += debugPath;
+                html += '</div>';
+                html += '<button type="button" class="btn btn-sm btn-info" style="margin-top:10px;" onclick="copyDebugPath(\'' + debugPath.replace(/'/g, "\\'") + '\')">';
+                html += '<i class="fa fa-copy"></i> 复制路径';
+                html += '</button>';
+                html += '<div style="margin-top:10px;font-size:12px;color:#64748b;">';
+                html += '💡 在微信开发者工具的"编译模式"中粘贴此路径，可直接调试扫码效果';
+                html += '</div>';
+                html += '</div>';
+                document.getElementById('qrcode').innerHTML = html;
+                Layer.msg('二维码生成成功', {icon: 1});
+            } else {
+                document.getElementById('qrcode').innerHTML = '<div style="text-align:center;padding:50px;color:red;">生成失败：' + res.msg + '</div>';
+                Layer.msg(res.msg, {icon: 2});
+            }
+        },
+        error: function(xhr) {
+            document.getElementById('qrcode').innerHTML = '<div style="text-align:center;padding:50px;color:red;">请求失败，请检查网络</div>';
+            Layer.msg('请求失败', {icon: 2});
+        }
+    });
+}
+
+// 复制调试路径到剪贴板
+function copyDebugPath(path) {
+    // 创建临时文本框
+    var textarea = document.createElement('textarea');
+    textarea.value = path;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+
+    // 选择并复制
+    textarea.select();
+    try {
+        document.execCommand('copy');
+        Layer.msg('调试路径已复制到剪贴板', {icon: 1});
+    } catch (err) {
+        Layer.msg('复制失败，请手动复制', {icon: 2});
+    }
+
+    // 移除临时元素
+    document.body.removeChild(textarea);
+}
+
+function downloadQRCode() {
+    // 获取二维码图片
+    var img = document.querySelector('#qrcode img');
+
+    if (!img || !img.src) {
+        Layer.msg('请先生成二维码', {icon: 2});
+        return;
+    }
+
+    // 获取参数用于文件名
+    var goodsId = '{$row.id}';
+    var date = document.getElementById('qr-date').value;
+    var type = document.getElementById('qr-type').value;
+    var typeNames = ['生产全程回放', '精彩瞬间', '多视角回放', '配料回放'];
+    var fileName = 'qrcode-' + goodsId + '-' + date + '-' + typeNames[type] + '.png';
+
+    // 通过 fetch 下载原始图片，避免跨域和裁剪问题
+    var imgUrl = img.src.split('?')[0]; // 去掉缓存参数
+    fetch(imgUrl)
+        .then(function(res) { return res.blob(); })
+        .then(function(blob) {
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            Layer.msg('二维码下载成功', {icon: 1});
+        })
+        .catch(function() {
+            // fallback: 直接打开图片让用户右键保存
+            window.open(imgUrl, '_blank');
+            Layer.msg('请右键图片另存为', {icon: 0});
+        });
+}
+</script>

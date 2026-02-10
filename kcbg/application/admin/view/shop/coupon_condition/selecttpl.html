@@ -1,0 +1,22 @@
+<script type="text/html" id="deftpl">
+    <input id="c-content" class="form-control" name="row[content]" type="text" value="<%=data%>">
+</script>
+
+
+<script type="text/html" id="goodstpl">
+    <input id="c-content" class="form-control selectpage" data-multiple="true" data-field="title" data-source="shop/goods/index" name="row[content]" type="text" value="<%=data%>">
+</script>
+
+
+<script type="text/html" id="categorytpl">
+    <input id="c-content" class="form-control selectpage" data-multiple="true" data-format-item="{spacer} {name}" data-source="shop/category/index/noKeyField/100" name="row[content]" type="text" value="<%=data%>">
+</script>
+
+
+<script type="text/html" id="brandtpl">
+    <input id="c-content" class="form-control selectpage" data-multiple="true" data-source="shop/brand/index" name="row[content]" type="text" value="<%=data%>">
+</script>
+
+<script type="text/html" id="viptpl">
+    <input id="c-content" class="form-control selectpage" data-multiple="true" data-source="vip/vip/index" name="row[content]" type="text" value="<%=data%>">
+</script>

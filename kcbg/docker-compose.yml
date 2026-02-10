@@ -1,0 +1,74 @@
+services:
+  # Nginx Web Server
+  nginx:
+    image: nginx:1.24-alpine
+    container_name: kcbg_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - kcbg_network
+
+  # PHP-FPM 7.3
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    container_name: kcbg_php
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=cwls
+      - DB_USERNAME=root
+      - DB_PASSWORD=root123456
+    depends_on:
+      - mysql
+    networks:
+      - kcbg_network
+
+  # MySQL 5.7
+  mysql:
+    image: mysql:5.7
+    container_name: kcbg_mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root123456
+      MYSQL_DATABASE: cwls
+      MYSQL_USER: cwls
+      MYSQL_PASSWORD: cwls123456
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./cwls.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      - kcbg_network
+
+  # phpMyAdmin (可选，方便管理数据库)
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: kcbg_phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root123456
+    depends_on:
+      - mysql
+    networks:
+      - kcbg_network
+
+networks:
+  kcbg_network:
+    driver: bridge
+
+volumes:
+  mysql_data:

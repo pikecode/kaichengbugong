@@ -1,0 +1,47 @@
+<form id="prints-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('电子面单')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input class="form-control selectpage" data-field="title" data-source="shop/electronics_order/index" id="electronics_id" placeholder="请选择电子面单模板">
+        </div>
+    </div>
+    {foreach name="order" item="item"}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{$key+1}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div>
+               <b>订单号：{$item.order_sn}</b>
+            </div>
+            <div>
+                {foreach name="$item.order_goods" item="res"}
+                    <div style="margin-top: 10px;display: flex;">
+                        <img width="120" height="100" src="{$res.image}" alt="">
+                        <div style="padding-left: 10px;">
+                            <p><b>{$res.title}</b></p>
+                            <p>
+                                <span>￥{$res.price}</span>
+                                <span style="margin-left: 30px;">×{$res.nums}</span>
+                                <span style="margin-left: 30px;">{$res.attrdata}</span>
+                            </p>
+                            <p>
+                                地址：{$item.address}
+                            </p>
+                            <p>
+                                <span>姓名：{$item.receiver}</span>
+                                <span style="margin-left: 30px;">手机号码：{$item.mobile}</span>
+                            </p>
+                        </div>
+                    </div>
+                {/foreach}
+            </div>
+        </div>
+    </div>
+    {/foreach}
+</div>
+</form>
+<div class="form-group layer-footer">
+    <label class="control-label col-xs-12 col-sm-2"></label>
+    <div class="col-xs-12 col-sm-8">
+        <button type="submit" class="btn btn-success btn-embossed btn-fa-prints"><i class="fa fa-print"></i> {:__('批量打印')}</button>
+    </div>
+</div>

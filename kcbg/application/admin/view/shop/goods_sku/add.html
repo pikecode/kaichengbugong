@@ -1,0 +1,229 @@
+<style>
+    #app .row .input-group {
+        margin-bottom: 10px;
+    }
+
+    #app .row .input-group .btn-remove {
+        color: #fff;
+        background-color: #e74c3c;
+        cursor: pointer;
+    }
+
+    #app .row .form-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #app .row .form-group .right {
+        flex: 1;
+        padding-left: 15px;
+    }
+    #app .row .form-group .control-label{
+        width: 58px;
+    }
+    #app .panel .panel-heading{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .table th{
+        text-align: center;
+    }
+    .table .td-img{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .td-img .image-thumb{
+        margin-right: 5px;
+        width:32px;
+        height:32px;
+    }
+    .td-img .image-thumb img{
+        width:100%;
+        height:100%;
+    }
+    .goods-sku-table .multiple-edit{
+        color: #18bc9c;
+        cursor: pointer;
+    }
+    [v-clock] {
+        display: none;
+    }
+</style>
+
+
+<div id="app" v-clock>
+    <div class="row">
+        <div class="col-sm-4 col-xs-8">
+            <div class="form-group">
+                <label class="control-label">规格模板:</label>
+                <div class="right spec-template">
+                    <input data-source="shop/sku_template/index" id="template-id" data-primary-key="id" class="form-control selectpage" type="text">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" v-for="(spec,key) in specList" :key="key">
+        <div class="panel-heading">
+            <span>{{spec.name}}</span>
+            <span class="btn btn-remove" @click="removeSpec(key)">
+                <i class="fa fa-close"></i>
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6" v-for="(val,index) in spec.value" :key="index">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="" v-model="specList[key].value[index]">
+                        <div class=" input-group-btn">
+                            <span class="btn btn-remove" @click="removeSpecValue(key,index)">
+                                <i class="fa fa-close"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+                    <a href="javascript:;" class="btn btn-sm btn-success" @click="addSpecValue(key)"><i class="fa fa-plus"></i>
+                        {:__('Append')}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 规格名称录入 -->
+    <div class="row">
+        <div class="col-sm-4 col-xs-8 col-lg-3">
+            <div class="form-group">
+                <label class="control-label">规格名称:</label>
+                <div class="right">
+                    <div class="input-group">
+                        <input class="form-control" type="text" v-model="spec_name">
+                        <div class="input-group-btn">
+                            <button @click="addSpec" class="btn btn-success">
+                                <i class="fa fa-plus"></i>
+                                {:__('添加规格')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 规格表格展示 -->
+    <div class="goods-sku-table">
+        <table class="table table-striped table-bordered table-hover table-nowrap">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th v-for="(item,index) in specList" :key="index">
+                        {{item.name}}
+                    </th>
+                    <th>规格封面</th>
+                    <th>
+                        货号
+                        <span class="multiple-edit" :data-content="contentHtml('goods_sn')">
+                            <i class="fa fa-edit"></i>批量编辑
+                        </span>
+                    </th>
+                    <th>
+                        市场价
+                        <span class="multiple-edit" :data-content="contentHtml('marketprice')">
+                            <i class="fa fa-edit"></i>
+                            批量编辑
+                        </span>
+                    </th>
+                    <th>
+                        价格
+                        <span class="multiple-edit" :data-content="contentHtml('price')">
+                            <i class="fa fa-edit"></i>
+                            批量编辑
+                        </span>
+                    </th>
+                    <th>
+                        库存数量
+                        <span class="multiple-edit" :data-content="contentHtml('stocks')">
+                            <i class="fa fa-edit"></i>
+                            批量编辑
+                        </span>
+                    </th>
+                    <th>
+                        销量
+                    </th>
+                    <th>
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in tableData" :key="index">
+                    <th scope="row">{{index+1}}</th>
+                    <td v-for="(res,ik) in specList" :key="ik">
+                        {{specValueText(item.skus,ik)}}
+                    </td>
+                    <td class="td-img">
+                        <div class="image-thumb" :id="'p-image-'+index" data-template="p-image-tpl">
+                            <img src=""/>
+                        </div>
+                        <div class="input-group">
+                            <input type="hidden" :id="'c-image-'+index" class="form-control sku-images" :data-index="index"
+                            :value="item.image?item.image:''"/>
+                            <div class="input-group-addon no-border no-padding">
+                                <span>
+                                    <button :disabled="tableData[index].is_del" type="button" :id="'faupload-image-'+index" class="btn btn-danger faupload"
+                                    :data-input-id="'c-image-'+index" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp"
+                                        data-multiple="false" :data-preview-id="'p-image-'+index">
+                                    <i class="fa fa-upload"></i>
+                                        {:__('Upload')}
+                                    </button>
+                                </span>
+                                <span>
+                                    <button :disabled="tableData[index].is_del" type="button" :id="'fachoose-image-'+index" class="btn btn-primary fachoose"
+                                        :data-input-id="'c-image-'+index" data-mimetype="image/*" data-multiple="false">
+                                        <i class="fa fa-list"></i>
+                                        {:__('Choose')}
+                                    </button>
+                                </span>
+                            </div>
+                         </div>
+                    </td>
+                    <td>
+                        <input class="form-control" :disabled="tableData[index].is_del" type="text" v-model="tableData[index].goods_sn">
+                    </td>
+                    <td>
+                        <input class="form-control" :disabled="tableData[index].is_del" type="text" v-model="tableData[index].marketprice">
+                    </td>
+                    <td>
+                        <input class="form-control" :disabled="tableData[index].is_del" type="text" v-model="tableData[index].price">
+                    </td>
+                    <td>
+                        <input class="form-control" :disabled="tableData[index].is_del" type="text" v-model="tableData[index].stocks">
+                    </td>
+                    <td>
+                        <div style="text-align: center;">
+                            <span v-text="item.sales || 0"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="javascript:;" class="btn btn-xs btn-danger" v-if="!tableData[index].is_del" @click="del(index)"><i class="fa fa-trash"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-success" v-else @click="restore(index)"><i class="fa fa-mail-reply"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script id="p-image-tpl" type="text/html">
+    <a href="<%=fullurl%>" data-url="<%=url%>" target="_blank" class="">
+        <img src="<%=fullurl%>"/>
+    </a>
+</script>
+
+
+<div class="form-group layer-footer">
+    <label class="control-label col-xs-12 col-sm-2"></label>
+    <div class="col-xs-12 col-sm-8">
+        <button type="submit" class="btn btn-success btn-embossed btn-add-sku">{:__('OK')}</button>
+        <button type="reset" class="btn btn-default btn-embossed btn-del-sku">{:__('清空')}</button>
+    </div>
+</div>

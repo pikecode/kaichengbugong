@@ -1,0 +1,119 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <button class="btn-refresh hidden"></button>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Order_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-order_id" class="form-control" readonly name="row[order_id]" type="text" value="{$row.order_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Order_sn')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <p style="margin-top:5px;">{$row.order_goods.order_sn}</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Order_goods')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-order_goods_id" data-rule="required" data-source="shop/order_goods/index" data-field="title" class="form-control selectpage" readonly name="row[order_goods_id]" type="text" value="{$row.order_goods_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('User_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-user_id" data-rule="required" data-source="user/user/index" data-field="nickname" readonly class="form-control selectpage" name="row[user_id]" type="text" value="{$row.user_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <p style="margin-top:5px;">{$row.type_text}</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Nums')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-nums" data-rule="required" class="form-control" step="1" name="row[nums]" type="number" value="{$row.nums}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Realprice')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-realprice" data-rule="required" class="form-control" step="0.01" name="row[realprice]" type="number" value="{$row.realprice}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Shippingfee')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-shippingfee" data-rule="required" class="form-control" step="0.01" name="row[shippingfee]" type="number" value="{$row.shippingfee}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Refund')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-refund" data-rule="required" class="form-control" step="0.01" name="row[refund]" type="number" value="{$row.refund|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Reason')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-reason" data-rule="" class="form-control" name="row[reason]" rows="5">{$row.reason|htmlentities}</textarea>
+        </div>
+    </div>
+    {if $row.order.shippingstate && $row.type!=1}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Expressname')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-expressname" class="form-control" name="row[expressname]" type="text" value="{$row.expressname|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Expressno')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-expressno"  class="form-control" name="row[expressno]" type="text" value="{$row.expressno|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Images')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-images" class="form-control" size="50" name="row[images]" type="text" value="{$row.images|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-images" class="btn btn-danger faupload" data-input-id="c-images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="true" data-preview-id="p-images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-images" class="btn btn-primary fachoose" data-input-id="c-images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-images"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-images"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Mark')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mark" class="form-control" name="row[mark]" type="text" value="{$row.mark|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="statusList" item="vo"}
+                <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[status]" type="radio" value="{$key}" {in name="key" value="$row.status" }checked{/in} /> {$vo}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+            {if $row.order_goods.salestate==3 && $row.expressname!='' && $row.expressno!=''}
+                <button type="button" class="btn btn-info btn-confirmexpress" data-id="{$row.order_goods_id}" data-type="3" data-order='{"order_goods_id":{$row.order_goods_id}}'>确认收到货</button>
+            {/if}
+        </div>
+    </div>
+</form>

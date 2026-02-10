@@ -1,0 +1,22 @@
+<script type="text/html" id="fixationtpl">
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Use_times')}:</label>
+        <div class="col-xs-12 col-sm-8 use_times">
+            <div class="input-group">
+                <input id="c-use_times" data-rule="required" class="form-control" name="row[use_times]" type="number" autocomplete="off" placeholder="表示未来X天内有效" value="<%=use_times%>">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-success">天</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="datestpl">
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Use_times')}:</label>
+        <div class="col-xs-12 col-sm-8 use_times">
+            <input id="c-use_times" data-rule="required" class="form-control datetimerange" autocomplete="off" data-use-current="true" name="row[use_times]" type="text" value="<%=use_times%>">
+        </div>
+    </div>
+</script>

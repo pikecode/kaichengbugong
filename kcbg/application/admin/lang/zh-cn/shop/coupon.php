@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'Name'           => '名称',
+    'Condition'      => '条件',
+    'Condition 0'    => '所有房间',
+    'Condition 1'    => '指定房间',
+    'Condition 2'    => '指定门店',
+    'Condition 3'    => '新用户专享',
+    'Condition 4'    => '老用户专享',   
+    'Result'         => '结果',
+    'Result 0'       => '订单满x元打x折',
+    'Result 1'       => '订单满x元减x元',
+    'Result_data'    => '结果补充',
+    'Give_num'       => '优惠券发放总量',
+    'Allow_num'      => '一人可领取数量',
+    'Received_num'   => '已领取数量',
+    'Mode'           => '有效期模式',
+    'Mode dates'     => '日期范围',
+    'Mode fixation'  => '固定天数',
+    'Is_private'     => '是否私有',
+    'Is_private yes' => '是',
+    'Is_private no'  => '否',
+    'Is_open'        => '是否开启',
+    'Is_open 0'      => '关闭',
+    'Is_open 1'      => '开启',
+    'Receive_times'  => '领取时间段',
+    'Use_times'      => '使用时间段',
+    'Createtime'     => '创建时间',
+    'Updatetime'     => '更新时间'
+];

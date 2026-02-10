@@ -1,0 +1,203 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+
+    <div class="panel panel-default panel-intro">
+        <div class="panel-heading">
+            <ul class="nav nav-tabs nav-group">
+                <li class="active"><a href="#basics" data-toggle="tab">基础信息</a></li>
+                <li><a href="#skus" data-toggle="tab">规格信息</a></li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active in" id="basics">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Category')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-category_id" data-rule="required" data-source="shop/category/index/noKeyField/100" data-format-item="{spacer} {name}" class="form-control selectpage" name="row[category_id]" type="text" value="">
+                        </div>
+                    </div>
+                    <div id="attributes"></div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Brand')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-brand_id" data-source="shop/brand/index" class="form-control selectpage" name="row[brand_id]" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Goods_sn')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-goods_sn" class="form-control" name="row[goods_sn]" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-title" data-rule="required" class="form-control" name="row[title]" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Subtitle')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-subtitle" data-rule="" class="form-control" name="row[subtitle]" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Keywords')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-keywords" class="form-control" name="row[keywords]" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Description')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <textarea id="c-description" class="form-control" cols="10" rows="5" name="row[description]"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Marketprice')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-marketprice"  class="form-control" step="0.01" name="row[marketprice]" type="number" value="0.00">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Price')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-price" data-rule="required" class="form-control" step="0.01" name="row[price]" type="number" value="0.00">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Stocks')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-stocks" data-rule="required" class="form-control" name="row[stocks]" type="number" value="0">
+                            <div class="alert alert-warning-light">
+                                <i class="fa fa-info-circle"></i> 温馨提示<br>
+                                多规格商品规格请在商品列表完成录入<br>
+                                多规格商品库存值默认为0，无需要修改
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Image')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-image" data-rule="required" class="form-control" size="50" name="row[image]" type="text" value="">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-image" class="btn btn-danger faupload" data-input-id="c-image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-image" class="btn btn-primary fachoose" data-input-id="c-image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-image"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-image"></ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Images')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <div class="input-group">
+                                <input id="c-images" data-rule="required" class="form-control" size="50" name="row[images]" type="text" value="">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" id="faupload-images" class="btn btn-danger faupload" data-input-id="c-images" data-multiple="true" data-preview-id="p-images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                    <span><button type="button" id="fachoose-images" class="btn btn-primary fachoose" data-input-id="c-images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                </div>
+                                <span class="msg-box n-right" for="c-images"></span>
+                            </div>
+                            <ul class="row list-inline faupload-preview" id="p-images"></ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <textarea id="c-content" class="form-control editor" rows="5" name="row[content]" cols="50"></textarea>
+                            <!-- <div style="margin-top:5px;">
+                                <a href="javascript:" class="btn btn-xs btn-success btn-card">{:__('插入卡片')}</a>
+                            </div> -->
+                        </div>
+                    </div>
+<!--                    <div class="form-group">-->
+<!--                        <label class="control-label col-xs-12 col-sm-2">{:__('Corner')}:</label>-->
+<!--                        <div class="col-xs-12 col-sm-8">-->
+<!--                            <input id="c-corner" class="form-control" name="row[corner]" type="text">-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Flag')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+
+                            <select  id="c-flag" class="form-control selectpicker" multiple="" name="row[flag][]">
+                                {foreach name="flagList" item="vo"}
+                                    <option value="{$key}" {in name="key" value=""}selected{/in}>{$vo}</option>
+                                {/foreach}
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Weight')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-weight" class="form-control" step="0.01" name="row[weight]" type="number" value="0.00">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Freight')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-freight_id" data-rule="required" data-source="shop/freight/index" class="form-control selectpage" name="row[freight_id]" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Guarantee')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-guarantee_ids" data-source="shop/guarantee/index" data-multiple="true" class="form-control selectpage" name="row[guarantee_ids]" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Weigh')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-weigh" data-rule="required" class="form-control" name="row[weigh]" type="number" value="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+
+                            <div class="radio">
+                            {foreach name="statusList" item="vo"}
+                            <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[status]" type="radio" value="{$key}" {in name="key" value="normal"}checked{/in} /> {$vo}</label>
+                            {/foreach}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">溯源回放地址:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-traceability_url" class="form-control" name="row[traceability_url]" type="text"
+                                value="" placeholder="粘贴溯源商品或配料回放生成的地址">
+                            <span class="help-block">
+                                示例：/pages/index/sycpvideo?id=5 或 /pages/ingredientreplay/videos?id=10<br>
+                                留空则不显示溯源回放入口
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="skus">
+                    {include file="shop/goods/add_sku" /}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="goods-sku"></div>
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+
+{include file="shop/goods/attributetpl" /}
+{include file="shop/common/cardtpl" /}

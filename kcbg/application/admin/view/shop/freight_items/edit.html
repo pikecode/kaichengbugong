@@ -1,0 +1,72 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('First_num')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-first_num" class="form-control" step="1" name="row[first_num]" type="number" value="{$row.first_num|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('First_price')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-first_price" class="form-control" step="1" name="row[first_price]" type="number" value="{$row.first_price|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Continue_num')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-continue_num" class="form-control" step="1" name="row[continue_num]" type="number" value="{$row.continue_num|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Continue_price')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-continue_price" class="form-control" step="1" name="row[continue_price]" type="number" value="{$row.continue_price|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Area_ids')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="channeltree" data-id="c-area_ids"></div>
+            <input id="c-area_ids" class="form-control" name="row[area_ids]" type="hidden" value="{$row.postage_area_ids|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <select  id="c-type" data-rule="required" class="form-control selectpicker" name="row[type]">
+                {foreach name="typeList" item="vo"}
+                    <option value="{$key}" {in name="key" value="$row.type"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Postage_area_ids')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="channeltree" data-id="c-postage_area_ids"></div>
+            <input id="c-postage_area_ids" class="form-control" name="row[postage_area_ids]" type="hidden" value="{$row.postage_area_ids|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group c-postage_num {in name="row.type" value="0,2"} hide {/in}">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Postage_num')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-postage_num" class="form-control" step="1" name="row[postage_num]" type="number" value="{$row.postage_num|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group c-postage_price {in name="row.type" value="0,1"} hide {/in}">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Postage_price')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-postage_price" class="form-control" step="1" name="row[postage_price]" type="number" value="{$row.postage_price|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

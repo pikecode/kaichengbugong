@@ -1,0 +1,94 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Traceability_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-traceability_id" data-rule="required" data-field="title" data-source="traceability/index" class="form-control selectpage" name="row[traceability_id]" type="text" value="{$row.traceability_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title" class="form-control" name="row[title]" type="text" value="{$row.title|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Image')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-image" class="form-control" size="50" name="row[image]" type="text" value="{$row.image|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-image" class="btn btn-danger faupload" data-input-id="c-image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-image" class="btn btn-primary fachoose" data-input-id="c-image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-image"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-image"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Weigh')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-weigh" data-rule="required" class="form-control" name="row[weigh]" type="number" value="{$row.weigh|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">小程序地址:</label>
+        <div class="col-xs-12 col-sm-8">
+            <!-- 日期选择 -->
+            <div class="input-group" style="margin-bottom: 10px;">
+                <span class="input-group-addon">日期</span>
+                <input type="date" id="miniapp-date" class="form-control" onchange="updateMiniappUrl()">
+            </div>
+
+            <!-- 生成的地址 -->
+            <div class="input-group">
+                <input id="c-miniapp-url" class="form-control" type="text" readonly value="/pages/index/sycpvideo?id={$row.id}">
+                <div class="input-group-addon no-border no-padding">
+                    <button type="button" class="btn btn-success" onclick="copyToClipboard()">
+                        <i class="fa fa-copy"></i> 复制地址
+                    </button>
+                </div>
+            </div>
+            <span class="help-block">
+                选择日期后，将生成的地址复制并粘贴到商品管理的"溯源回放地址"字段中<br>
+                小程序将根据日期定位到相应日期的视频列表
+            </span>
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+
+<script>
+// 更新小程序地址
+function updateMiniappUrl() {
+    var goodsId = '{$row.id}';
+    var date = document.getElementById('miniapp-date').value;
+    var url = '/pages/index/sycpvideo?id=' + goodsId;
+
+    if (date) {
+        url += '&date=' + date;
+    }
+
+    document.getElementById('c-miniapp-url').value = url;
+}
+
+function copyToClipboard() {
+    var input = document.getElementById('c-miniapp-url');
+    input.select();
+    input.setSelectionRange(0, 99999); // For mobile devices
+
+    try {
+        document.execCommand('copy');
+        Layer.msg('地址已复制到剪贴板', {icon: 1});
+    } catch (err) {
+        Layer.msg('复制失败，请手动复制', {icon: 2});
+    }
+}
+</script>
