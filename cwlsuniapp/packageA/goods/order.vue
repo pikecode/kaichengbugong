@@ -108,8 +108,8 @@
 		},
 		watch: {
 			addressChange(val, oldVal) {
-				// 地址变化时重新计算（从地址选择页返回时）
-				if (val && val.id && oldVal && !oldVal.id) {
+				// 地址变化时重新计算运费
+				if (val && val.id) {
 					this.reCalculate();
 				}
 			}
@@ -139,9 +139,9 @@
 						this.$u.vuex('vuex_address', res.data);
 					} else {
 						this.$u.vuex('vuex_address', {});
+						// 没有地址时watch不会触发，手动加载商品信息
+						this.reCalculate();
 					}
-					// 无论有没有地址，都要加载商品信息
-					this.reCalculate();
 				});
 			},
 			reCalculate() {

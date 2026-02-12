@@ -429,28 +429,6 @@ class Order extends Model
         // 启动事务
         Db::startTrans();
         try {
-            //支付方式变更
-            if (($order['paytype'] == $paytype && $order['method'] != $method)) {
-                $order_sn = date("Ymdhis") . sprintf("%08d", $user_id) . mt_rand(1000, 9999);
-                //更新电子面单
-                $electronics = $order->order_electronics;
-                foreach ($electronics as $aftersales) {
-                    $aftersales->order_sn = $order_sn;
-                    $aftersales->save();
-                }
-                //更新操作日志
-                $orderAction = $order->order_action;
-                foreach ($orderAction as $action) {
-                    $action->order_sn = $order_sn;
-                    $action->save();
-                }
-                $order->save(['order_sn' => $order_sn]);
-                //更新订单明细
-                foreach ($order->order_goods as $item) {
-                    $item->order_sn = $order_sn;
-                    $item->save();
-                }
-            }
             //更新支付类型和方法
             $order->allowField(true)->save(['paytype' => $paytype, 'method' => $method, 'openid' => $openid]);
             //提交事务
@@ -546,7 +524,7 @@ class Order extends Model
             return false;
         }
 
-        if ($payamount != $order->saleamount) {
+        if (bccomp($payamount, $order->saleamount, 2) !== 0) {
             \think\Log::write("[shop][pay][{$order_sn}][订单支付金额不一致]");
             return false;
         }
@@ -561,7 +539,7 @@ class Order extends Model
             $order->paytype = !$order->paytype ? 'system' : $order->paytype;
             $order->method = !$order->method ? 'system' : $order->method;
             $order->save();
-            if ($order->payamount == $order->saleamount) {
+            if (bccomp($order->payamount, $order->saleamount, 2) === 0) {
                 //支付完成后,商品销量+1
                 foreach ($order->order_goods as $item) {
                     $goods = $item->goods;

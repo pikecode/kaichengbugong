@@ -44,12 +44,12 @@ class Order extends Base
                 echo '签名错误';
                 return;
             }
-            $data = $pay->verify();
             try {
+                $data = $pay->verify();
                 $payamount = $paytype == 'alipay' ? $data['total_amount'] : $data['total_fee'] / 100;
                 \addons\shop\model\Order::settle($data['out_trade_no'], $payamount, $paytype == 'alipay' ? $data['trade_no'] : $data['transaction_id']);
             } catch (\Exception $e) {
-                \think\Log::write($e->getMessage(), 'epay');
+                \think\Log::write("epay callback error: " . $e->getMessage() . ", paytype: " . $paytype, 'epay');
             }
             echo $pay->success();
         } elseif ($type == 'return') {
