@@ -106,10 +106,10 @@
 				</view>
 			</view>
 			<!-- 查看更多按钮 -->
-			<view class="u-flex u-row-center u-p-20" v-if="recommends.length > 4">
-				<view class="more-btn" @click="showAllRecommends = !showAllRecommends">
+			<view class="more-btn-wrap" v-if="recommends.length > 4" @click="showAllRecommends = !showAllRecommends">
+				<view class="more-btn" :style="{background: showAllRecommends ? '#f5f5f5' : 'linear-gradient(135deg, #ff6b6b, #ff4444)', color: showAllRecommends ? '#606266' : '#fff'}">
 					<text>{{ showAllRecommends ? '收起' : '查看更多' }}</text>
-					<u-icon :name="showAllRecommends ? 'arrow-up' : 'arrow-down'" size="24"></u-icon>
+					<u-icon :name="showAllRecommends ? 'arrow-up' : 'arrow-down'" size="24" :color="showAllRecommends ? '#606266' : '#fff'"></u-icon>
 				</view>
 			</view>
 			<!-- 加载更多 -->
@@ -131,10 +131,10 @@
 				<!-- 空数据 -->
 			</view>
 			<!-- 查看更多按钮 -->
-			<view class="u-flex u-row-center u-p-20" v-if="plhf.length > 4">
-				<view class="more-btn" @click="showAllPlhf = !showAllPlhf">
+			<view class="more-btn-wrap" v-if="plhf.length > 4" @click="showAllPlhf = !showAllPlhf">
+				<view class="more-btn" :style="{background: showAllPlhf ? '#f5f5f5' : 'linear-gradient(135deg, #ff6b6b, #ff4444)', color: showAllPlhf ? '#606266' : '#fff'}">
 					<text>{{ showAllPlhf ? '收起' : '查看更多' }}</text>
-					<u-icon :name="showAllPlhf ? 'arrow-up' : 'arrow-down'" size="24"></u-icon>
+					<u-icon :name="showAllPlhf ? 'arrow-up' : 'arrow-down'" size="24" :color="showAllPlhf ? '#606266' : '#fff'"></u-icon>
 				</view>
 			</view>
 			<!-- 加载更多 -->
@@ -156,10 +156,10 @@
 				<!-- 空数据 -->
 			</view>
 			<!-- 查看更多按钮 -->
-			<view class="u-flex u-row-center u-p-20" v-if="sy.length > 4">
-				<view class="more-btn" @click="showAllSy = !showAllSy">
+			<view class="more-btn-wrap" v-if="sy.length > 4" @click="showAllSy = !showAllSy">
+				<view class="more-btn" :style="{background: showAllSy ? '#f5f5f5' : 'linear-gradient(135deg, #ff6b6b, #ff4444)', color: showAllSy ? '#606266' : '#fff'}">
 					<text>{{ showAllSy ? '收起' : '查看更多' }}</text>
-					<u-icon :name="showAllSy ? 'arrow-up' : 'arrow-down'" size="24"></u-icon>
+					<u-icon :name="showAllSy ? 'arrow-up' : 'arrow-down'" size="24" :color="showAllSy ? '#606266' : '#fff'"></u-icon>
 				</view>
 			</view>
 			<!-- 加载更多 -->
@@ -431,17 +431,22 @@ page {
 		}
 	}
 }
+.more-btn-wrap {
+	display: flex;
+	justify-content: center;
+	padding: 10rpx 30rpx 30rpx;
+}
 .more-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 20rpx 40rpx;
-	background-color: #ffffff;
-	border-radius: 50rpx;
-	border: 1px solid #e9ebf3;
-	color: #606266;
+	width: 100%;
+	padding: 20rpx 0;
+	border-radius: 12rpx;
 	font-size: 28rpx;
-	box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+	font-weight: 500;
+	letter-spacing: 2rpx;
+	box-shadow: 0px 4px 12px rgba(255, 68, 68, 0.2);
 	text {
 		margin-right: 10rpx;
 	}

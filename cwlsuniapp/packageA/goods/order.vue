@@ -3,12 +3,18 @@
 		<!-- 顶部导航 -->
 		<fa-navbar title="提交订单" :border-bottom="false"></fa-navbar>
 		<view class="bg-white u-flex u-row-between u-p-30 u-m-b-20" @click="goPage('/packageD/address/address?type=select')">
-			<view class="u-skeleton-rect">
+			<view class="u-skeleton-rect u-flex-1" v-if="vuex_address.id">
 				<view class="text-weight">
-					<text>{{ vuex_address.receiver || '请选择地址' }}</text>
-					<text class="u-m-l-20">{{ vuex_address.mobile || '' }}</text>
+					<text>{{ vuex_address.receiver }}</text>
+					<text class="u-m-l-20">{{ vuex_address.mobile }}</text>
 				</view>
-				<view class="u-tips-color u-p-t-10">{{ vuex_address.address || '' }}</view>
+				<view class="u-tips-color u-p-t-10">{{ vuex_address.address }}</view>
+			</view>
+			<view class="u-skeleton-rect u-flex-1 no-address" v-else>
+				<view class="u-flex u-row-center">
+					<u-icon name="map" size="40" color="#ff6b6b"></u-icon>
+					<text class="u-m-l-10" style="color: #ff6b6b; font-size: 30rpx;">请添加收货地址</text>
+				</view>
 			</view>
 			<view class="u-tips-color u-m-l-30"><u-icon name="arrow-right"></u-icon></view>
 		</view>
@@ -102,14 +108,22 @@
 		},
 		watch: {
 			addressChange(val, oldVal) {
-				this.reCalculate();
+				// 地址变化时重新计算（从地址选择页返回时）
+				if (val && val.id && oldVal && !oldVal.id) {
+					this.reCalculate();
+				}
 			}
 		},
 		data() {
 			return {
 				cart_ids: '',
 				list: [],
-				order_info: {},
+				order_info: {
+					goodsprice: 0,
+					shippingfee: 0,
+					saleamount: 0,
+					amount: 0
+				},
 				memo: '',
 				loading: true,
 				show_coupon: false,
@@ -126,14 +140,16 @@
 					} else {
 						this.$u.vuex('vuex_address', {});
 					}
+					// 无论有没有地址，都要加载商品信息
+					this.reCalculate();
 				});
 			},
 			reCalculate() {
 				this.$api
 					.orderCarts({
 						ids: this.cart_ids,
-						address_id: this.vuex_address.id,
-						user_coupon_id: this.coupon.user_coupon_id,
+						address_id: this.vuex_address.id || '',
+						user_coupon_id: this.coupon.user_coupon_id || '',
 					})
 					.then(res => {
 						if (res.code) {
@@ -141,12 +157,25 @@
 								item.checked = false;
 								item.cart_nums = item.nums;
 							});
-							this.list = res.data.goods_list;
-							this.order_info = res.data.order_info;
-							this.couponList = res.data.coupons;
-							this.couponTotalPrice = res.data.couponTotalPrice;
+							this.list = res.data.goods_list || [];
+							this.order_info = res.data.order_info || {
+								goodsprice: 0,
+								shippingfee: 0,
+								saleamount: 0,
+								amount: 0
+							};
+							this.couponList = res.data.coupons || [];
+							this.couponTotalPrice = res.data.couponTotalPrice || 0;
+							this.loading = false;
+						} else {
+							this.$u.toast(res.msg);
 							this.loading = false;
 						}
+					})
+					.catch(err => {
+						console.error('订单计算失败:', err);
+						this.$u.toast('加载订单信息失败');
+						this.loading = false;
 					});
 			},
 			showCouponList() {
@@ -191,49 +220,53 @@
 </script>
 
 <style lang="scss">
-	page {
-		background-color: #f4f6f8;
-	}
+page {
+	background-color: #f4f6f8;
+}
 </style>
 <style lang="scss" scoped>
-	.order-list {
-		background-color: #ffffff;
+.order-list {
+	background-color: #ffffff;
 
-		.item {
-			border-bottom: 1px solid #f4f6f8;
+	.item {
+		border-bottom: 1px solid #f4f6f8;
 
-			image {
-				width: 200rpx;
-				height: 150rpx;
-				border-radius: 5rpx;
-			}
+		image {
+			width: 200rpx;
+			height: 150rpx;
+			border-radius: 5rpx;
+		}
 
-			.right {
-				padding-left: 20rpx;
-				height: 150rpx;
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
+		.right {
+			padding-left: 20rpx;
+			height: 150rpx;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
 
-				.title-sku {
-					width: 450rpx;
-				}
+			.title-sku {
+				width: 450rpx;
 			}
 		}
 	}
+}
 
-	.notes {
-		margin-top: 30rpx;
-		padding: 0 30rpx;
-		background-color: #ffffff;
+.notes {
+	margin-top: 30rpx;
+	padding: 0 30rpx;
+	background-color: #ffffff;
 
-		.price {
-			width: 100%;
-			text-align: right;
-		}
-
-		.coupon {
-			width: 100%;
-		}
+	.price {
+		width: 100%;
+		text-align: right;
 	}
+
+	.coupon {
+		width: 100%;
+	}
+}
+
+.no-address {
+	padding: 20rpx 0;
+}
 </style>
