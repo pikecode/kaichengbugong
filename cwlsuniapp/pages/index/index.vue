@@ -107,7 +107,7 @@
 			</view>
 			<!-- 查看更多按钮 -->
 			<view class="more-btn-wrap" v-if="recommends.length > 4" @click="showAllRecommends = !showAllRecommends">
-				<view class="more-btn" :style="{background: showAllRecommends ? '#f5f5f5' : 'linear-gradient(135deg, #ff6b6b, #ff4444)', color: showAllRecommends ? '#606266' : '#fff'}">
+				<view class="more-btn" :style="{background: showAllRecommends ? '#f5f5f5' : 'linear-gradient(90deg, #ffc8c8, #ff4444, #ffc8c8)', color: showAllRecommends ? '#606266' : '#fff'}">
 					<text>{{ showAllRecommends ? '收起' : '查看更多' }}</text>
 					<u-icon :name="showAllRecommends ? 'arrow-up' : 'arrow-down'" size="24" :color="showAllRecommends ? '#606266' : '#fff'"></u-icon>
 				</view>
@@ -132,7 +132,7 @@
 			</view>
 			<!-- 查看更多按钮 -->
 			<view class="more-btn-wrap" v-if="plhf.length > 4" @click="showAllPlhf = !showAllPlhf">
-				<view class="more-btn" :style="{background: showAllPlhf ? '#f5f5f5' : 'linear-gradient(135deg, #ff6b6b, #ff4444)', color: showAllPlhf ? '#606266' : '#fff'}">
+				<view class="more-btn" :style="{background: showAllPlhf ? '#f5f5f5' : 'linear-gradient(90deg, #ffc8c8, #ff4444, #ffc8c8)', color: showAllPlhf ? '#606266' : '#fff'}">
 					<text>{{ showAllPlhf ? '收起' : '查看更多' }}</text>
 					<u-icon :name="showAllPlhf ? 'arrow-up' : 'arrow-down'" size="24" :color="showAllPlhf ? '#606266' : '#fff'"></u-icon>
 				</view>
@@ -157,7 +157,7 @@
 			</view>
 			<!-- 查看更多按钮 -->
 			<view class="more-btn-wrap" v-if="sy.length > 4" @click="showAllSy = !showAllSy">
-				<view class="more-btn" :style="{background: showAllSy ? '#f5f5f5' : 'linear-gradient(135deg, #ff6b6b, #ff4444)', color: showAllSy ? '#606266' : '#fff'}">
+				<view class="more-btn" :style="{background: showAllSy ? '#f5f5f5' : 'linear-gradient(90deg, #ffc8c8, #ff4444, #ffc8c8)', color: showAllSy ? '#606266' : '#fff'}">
 					<text>{{ showAllSy ? '收起' : '查看更多' }}</text>
 					<u-icon :name="showAllSy ? 'arrow-up' : 'arrow-down'" size="24" :color="showAllSy ? '#606266' : '#fff'"></u-icon>
 				</view>
@@ -446,7 +446,7 @@ page {
 	font-size: 28rpx;
 	font-weight: 500;
 	letter-spacing: 2rpx;
-	box-shadow: 0px 4px 12px rgba(255, 68, 68, 0.2);
+	box-shadow: 0px 2px 8px rgba(255, 68, 68, 0.15);
 	text {
 		margin-right: 10rpx;
 	}
