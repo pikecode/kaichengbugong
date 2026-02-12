@@ -24,7 +24,7 @@ return [
             'app_secret' => '',
             'miniapp_id' => 'wx3a708b76e9f65456',
             'mch_id' => '1695708291',
-            'key' => 'ktxemwdtfxcwqehnrqwnymdthftchhkw',
+            'key' => 'zjzzkcbg20260212zjzzkcbg20260212',
             'key_v3' => '',
             'mode' => 'normal',
             'sub_mch_id' => '',

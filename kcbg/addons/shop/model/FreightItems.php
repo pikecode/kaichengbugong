@@ -69,7 +69,13 @@ class FreightItems extends Model
 
         if (!$result) {
             //如果未找到指定地区的运费模板，则使用主运费模板
-            $result = $freight;
+            // 将Freight对象转换为FreightItems格式的数组
+            $result = [[
+                'first_num' => $freight['num'],
+                'first_price' => $freight['price'],
+                'continue_num' => $freight['continue_num'],
+                'continue_price' => $freight['continue_price']
+            ]];
         }
 
         //计算邮费
@@ -138,7 +144,13 @@ class FreightItems extends Model
 
         if (!$result) {
             //如果未找到指定地区的运费模板，则使用主运费模板
-            $result = [$freight];
+            // 将Freight对象转换为FreightItems格式的数组
+            $result = [[
+                'first_num' => $freight['num'],
+                'first_price' => $freight['price'],
+                'continue_num' => $freight['continue_num'],
+                'continue_price' => $freight['continue_price']
+            ]];
         }
 
         //计算邮费
