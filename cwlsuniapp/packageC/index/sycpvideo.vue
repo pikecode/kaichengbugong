@@ -188,7 +188,18 @@ export default {
 			}
 
 			this.$api.getTraceabilityGoodsVideoList(params).then(res => {
-				this.videoList = res.data
+				// 排序：先按权重升序（权重小的在前），再按时间倒序
+				this.videoList = (res.data || []).sort((a, b) => {
+					const weightA = a.weigh || 0;
+					const weightB = b.weigh || 0;
+					if (weightA !== weightB) {
+						return weightA - weightB; // 权重升序
+					}
+					// 权重相同时按时间倒序
+					const timeA = a.createtime || 0;
+					const timeB = b.createtime || 0;
+					return timeB - timeA;
+				});
 			});
 		},
 		swiperChange(index) {
