@@ -236,11 +236,19 @@ class Order extends Model
         $config = Service::getConfig($paytype);
         try {
             $order = Order::getByOrderSn($order_sn);
+            // 校验累计退款金额不超过订单实付金额（afterWrite中调用，当前退款已计入status=2）
+            $totalRefunded = OrderAftersales::where('order_id', $order['id'])
+                ->where('status', 2)
+                ->where('refund', '>', 0)
+                ->sum('refund');
+            if (bccomp($totalRefunded, $order['payamount'], 2) > 0) {
+                throw new \Exception("累计退款金额({$totalRefunded})超过订单实付金额({$order['payamount']})");
+            }
             if ($paytype == 'wechat') {
                 $response = Pay::wechat($config)->refund([
                     'type'          => in_array($order['method'], ['miniapp', 'app']) ? $order['method'] : '',
                     'out_trade_no'  => $order_sn,
-                    'out_refund_no' => time(),
+                    'out_refund_no' => $order_sn . '_' . date('YmdHis') . mt_rand(1000, 9999),
                     'total_fee'     => bcmul($order['payamount'], 100),
                     'refund_fee'    => bcmul($payamount, 100)
                 ]);

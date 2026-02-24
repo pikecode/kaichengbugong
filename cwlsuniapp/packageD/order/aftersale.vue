@@ -44,7 +44,7 @@
 			<text class="u-tips-color" v-text="info.mark"></text>
 		</view>
 		<!-- goods.salestate==3 退货录入快递单号 -->
-		<!-- <view class="u-p-30 u-m-t-30 bg-white" v-if="info.type==2 && [3,5].includes(goods.salestate)">
+		<view class="u-p-30 u-m-t-30 bg-white" v-if="info.type==2 && goods.salestate==3">
 			<view class="u-m-t-10 u-m-b-30 u-flex">
 				<text class="u-m-r-15">快递名称:</text>
 				<u-input v-model="expressname" :disabled="info.expressname!=''" placeholder="请输入快递名称" />
@@ -53,20 +53,20 @@
 				<text class="u-m-r-15">快递单号:</text>
 				<u-input v-model="expressno" :disabled="info.expressno!=''" placeholder="请输入快递单号" />
 			</view>
-			<view class="u-p-t-30 u-flex u-row-center u-border-top">
+			<view class="u-p-t-30 u-flex u-row-center u-border-top" v-if="!info.expressno">
 				<u-button
 					size="medium"
 					type="default"
 					hover-class="none"
 					:custom-style="btnStyle"
 					shape="circle"
-					:disabled="is_disabld"
+					:disabled="!expressname || !expressno"
 					@click="show=true"
 				>
 					保存快递信息
 				</u-button>
 			</view>
-		</view> -->
+		</view>
 		<u-modal v-model="show" content="请确定快递名称和快递单号是否正确？" :show-cancel-button="true" @confirm="submit"></u-modal>
 	</view>
 </template>

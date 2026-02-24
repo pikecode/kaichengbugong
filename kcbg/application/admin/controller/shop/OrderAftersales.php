@@ -43,7 +43,7 @@ class OrderAftersales extends Backend
             list($where, $sort, $order, $offset, $limit, $page, $alias, $bind) = $this->buildparams();
             $list = $this->model
                 ->with(['User', 'OrderGoods'])
-                ->alias(['order_goods' => 'OrderGoods'])
+                ->join('shop_order_goods order_goods', 'order_goods.id = fa_shop_order_aftersales.order_goods_id', 'LEFT')
                 ->where($where)
                 ->order($sort, $order)
                 ->paginate($limit);
