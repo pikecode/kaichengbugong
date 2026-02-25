@@ -126,10 +126,12 @@
 								</view>
 							</view>
 							<view style="font-size: 22rpx;color: #fff;">
-								{{item.title}}
-							</view>
-							<view style="font-size: 22rpx;color: #fff;">
 								播放时长:{{item.shichang}}
+							</view>
+						</view>
+						<view style="margin-top: 20rpx;">
+							<view style="font-size: 50rpx;">
+								{{item.title}}
 							</view>
 						</view>
 						<view style="display: flex;justify-content: space-between;align-items: center;  padding: 12rpx 0px;">
