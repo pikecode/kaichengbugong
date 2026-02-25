@@ -121,14 +121,14 @@
 					<view class="item"  v-for="(item, index) in videoList">
 						<view class="head" style="display: flex;justify-content: space-between;align-items: center;">
 							<view>
-								<view class="" style="padding: 3px 5px;background: #2279fb; font-size: 16rpx;border-radius: 4rpx;">
+								<view class="" style="padding: 3px 5px;background: #2279fb; font-size: 24rpx;border-radius: 4rpx;">
 									{{item.tag}}
 								</view>
 							</view>
 							<view>
 								{{item.title}}
 							</view>
-							<view style="font-size: 20rpx;color: #dad9d9;">
+							<view style="font-size: 22rpx;color: #fff;">
 								播放时长:{{item.shichang}}
 							</view>
 						</view>
