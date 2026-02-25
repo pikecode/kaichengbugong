@@ -130,7 +130,7 @@ export default {
 			showPoster: false,
 			showCoupon:false,
 			recommends: [],
-			list: ['到供应商处溯源，全程回放', '精彩瞬间', '有封条，不掉包'],
+			list: ['去供应链直播', '精彩瞬间', '有封条，不掉包'],
 			riqishow:false,
 			datearr:[],
 			dy:"2024-10",

@@ -253,7 +253,7 @@
 				<view>客服</view>
 			</view>
 			
-			<view class="u-flex-1 u-text-center" style="position: relative" @click="goPage('/pages/cart/cart')">
+			<view class="u-flex-1 u-text-center" style="position: relative" @click="goCartPage">
 				<fa-u-badge v-if="cart_nums" type="error" :offset="[-20, -60]" :count="cart_nums"></fa-u-badge>
 				<view class=""><u-icon name="shopping-cart" size="35"></u-icon></view>
 				<view class="">购物车</view>
@@ -333,8 +333,6 @@
 		<fa-coupon v-model="showCoupon" :couponList="info.coupon"></fa-coupon>
 		<!-- <fa-replys v-model="showReplay" :pid="replyId"></fa-replys> -->
 		<u-skeleton :loading="loading" :animation="true" bgColor="#FFF"></u-skeleton>
-		<!-- 底部导航 -->
-		<fa-tabbar></fa-tabbar>
 		
 		<u-calendar v-model="riqishow" @change="changedate" :arr="info.ri"></u-calendar>
 		
@@ -498,6 +496,9 @@ export default {
 	methods: {
 		ss(){
 			this.videoshow = false;
+		},
+		goCartPage() {
+			uni.switchTab({ url: '/pages/cart/cart' });
 		},
 		openVideo(i){
 			uni.navigateTo({
