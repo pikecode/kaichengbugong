@@ -94,7 +94,7 @@ class Goods extends Base
 
         $traceability_id = $this->request->param('traceability_id/d');
 
-        $sy = Traceabilitygoods::where("traceability_id",$traceability_id)->order('weigh', 'desc')->select();
+        $sy = Traceabilitygoods::where("traceability_id",$traceability_id)->order('weigh', 'asc')->select();
 
         $this->success('获取成功', $sy);
 
@@ -127,8 +127,8 @@ class Goods extends Base
         }
 
         $list = Traceabilitygoodsvideo::where($where)
-            ->whereRaw("FIND_IN_SET(?, type)", [$type])
-            ->order('weigh', 'desc')
+            ->whereRaw("FIND_IN_SET('" . intval($type) . "', type)")
+            ->order('weigh', 'asc')
             ->select();
 
 
@@ -346,8 +346,8 @@ class Goods extends Base
         $goods_id = $this->request->get('goods_id',0);
 
         $list = Video::where("riqi",$date)->where("shop_goods_id",$goods_id)->where("status", 1)
-            ->whereRaw("FIND_IN_SET(?, type)", [$type])
-            ->order('weigh', 'desc')
+            ->whereRaw("FIND_IN_SET('" . intval($type) . "', type)")
+            ->order('weigh', 'asc')
             ->select();
 
         $this->success("获取成功",$list);
@@ -442,7 +442,7 @@ class Goods extends Base
 
         $ingredientreplay_id = $this->request->param('ingredientreplay_id/d');
 
-        $sy = Ingredientreplayitem::where("ingredientreplay_id",$ingredientreplay_id)->order('weigh', 'desc')->select();
+        $sy = Ingredientreplayitem::where("ingredientreplay_id",$ingredientreplay_id)->order('weigh', 'asc')->select();
 
         $this->success('获取成功', $sy);
 
@@ -475,8 +475,8 @@ class Goods extends Base
         }
 
         $list = Ingredientreplayitemvideo::where($where)
-            ->whereRaw("FIND_IN_SET(?, type)", [$type])
-            ->order('weigh', 'desc')
+            ->whereRaw("FIND_IN_SET('" . intval($type) . "', type)")
+            ->order('weigh', 'asc')
             ->select();
 
 
