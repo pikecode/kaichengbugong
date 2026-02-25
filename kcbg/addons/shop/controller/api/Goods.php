@@ -442,7 +442,7 @@ class Goods extends Base
 
         $ingredientreplay_id = $this->request->param('ingredientreplay_id/d');
 
-        $sy = Ingredientreplayitem::where("ingredientreplay_id",$ingredientreplay_id)->order('weigh', 'asc')->select();
+        $sy = Ingredientreplayitem::where("ingredientreplay_id",$ingredientreplay_id)->order('weigh', 'desc')->select();
 
         $this->success('获取成功', $sy);
 
