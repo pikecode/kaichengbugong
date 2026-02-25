@@ -125,7 +125,7 @@
 									{{item.tag}}
 								</view>
 							</view>
-							<view>
+							<view style="font-size: 22rpx;color: #fff;">
 								{{item.title}}
 							</view>
 							<view style="font-size: 22rpx;color: #fff;">
