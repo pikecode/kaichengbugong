@@ -9,26 +9,26 @@
 	export default {
 		data() {
 			return {
-				videourl: '',
-				shareUrl: '' // 用于分享的完整 URL 参数
+				videourl: ''
 			}
 		},
 		onLoad(e) {
-			this.videourl = e.url
-			this.shareUrl = e.url
+			// 支持编码和未编码的 URL
+			this.videourl = decodeURIComponent(e.url || '')
+			console.log('视频地址:', this.videourl)
 		},
 		onShareAppMessage() {
 			return {
 				title: '视频回放',
-				path: `/packageD/video/video?url=${encodeURIComponent(this.shareUrl)}`,
-				imageUrl: '' // 可以设置视频封面图
+				path: `/packageD/video/video?url=${this.videourl}`,
+				imageUrl: ''
 			}
 		},
 		// #ifdef MP-WEIXIN
 		onShareTimeline() {
 			return {
 				title: '视频回放',
-				query: `url=${encodeURIComponent(this.shareUrl)}`
+				query: `url=${this.videourl}`
 			}
 		},
 		// #endif
