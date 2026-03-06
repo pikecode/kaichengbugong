@@ -9,14 +9,31 @@
 	export default {
 		data() {
 			return {
-				videourl:''
+				videourl: '',
+				shareUrl: '' // 用于分享的完整 URL 参数
 			}
 		},
 		onLoad(e) {
 			this.videourl = e.url
+			this.shareUrl = e.url
 		},
+		onShareAppMessage() {
+			return {
+				title: '视频回放',
+				path: `/packageD/video/video?url=${encodeURIComponent(this.shareUrl)}`,
+				imageUrl: '' // 可以设置视频封面图
+			}
+		},
+		// #ifdef MP-WEIXIN
+		onShareTimeline() {
+			return {
+				title: '视频回放',
+				query: `url=${encodeURIComponent(this.shareUrl)}`
+			}
+		},
+		// #endif
 		methods: {
-			
+
 		}
 	}
 </script>
