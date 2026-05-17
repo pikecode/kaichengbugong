@@ -9,14 +9,31 @@
 	export default {
 		data() {
 			return {
-				videourl:''
+				videourl: ''
 			}
 		},
 		onLoad(e) {
-			this.videourl = e.url
+			// 支持编码和未编码的 URL
+			this.videourl = decodeURIComponent(e.url || '')
+			console.log('视频地址:', this.videourl)
 		},
+		onShareAppMessage() {
+			return {
+				title: '视频回放',
+				path: `/packageD/video/video?url=${this.videourl}`,
+				imageUrl: ''
+			}
+		},
+		// #ifdef MP-WEIXIN
+		onShareTimeline() {
+			return {
+				title: '视频回放',
+				query: `url=${this.videourl}`
+			}
+		},
+		// #endif
 		methods: {
-			
+
 		}
 	}
 </script>

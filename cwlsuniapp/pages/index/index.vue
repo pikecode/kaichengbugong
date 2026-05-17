@@ -119,7 +119,7 @@
 		<view class="index-content">
 			<view class="u-font-30 title">
 				<text class="stroke"></text>
-				<text style="color: #ff0000;">配料全程回放</text>
+				<text style="color: #ff0000;">核心配料全程回放</text>
 			</view>
 			<view class="goods-list">
 				<view class="item" v-for="(item, index) in displayPlhf" :key="index" @click="goPage('/packageC/index/plhf?id=' + item.id)">
