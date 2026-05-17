@@ -428,13 +428,15 @@ export default {
 			this.videoshow = false;
 		},
 		openVideo(i){
+			const videoUrl = this.videoList[i].video_url;
+			if (!videoUrl) {
+				this.$u.toast('视频地址为空');
+				return;
+			}
+			// 对视频URL进行编码，防止特殊字符破坏参数
 			uni.navigateTo({
-				url:"/pages/video/video?url="+this.videoList[i].video_url
-			})
-			// 22
-			// this.videourl = this.videoList[i].video_url;
-			// this.videoshow = true;
-			
+				url:"/pages/video/video?url=" + encodeURIComponent(videoUrl)
+			});
 		},
 		sectionChange(index) {
 			this.curNow = index;
