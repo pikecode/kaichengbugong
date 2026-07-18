@@ -129,6 +129,10 @@
 					</view>
 				</view>
 				<!-- 空数据 -->
+				<view class="u-flex u-row-center fa-empty u-p-b-60" v-if="!plhf.length">
+					<image src="../../static/image/data.png" mode=""></image>
+					<view class="u-tips-color">暂无更多的配料回放~</view>
+				</view>
 			</view>
 			<!-- 查看更多按钮 -->
 			<view class="more-btn-wrap" v-if="plhf.length > 4" @click="showAllPlhf = !showAllPlhf">
@@ -141,7 +145,8 @@
 			<!-- <view class="u-p-b-30" v-if="recommends.length"><u-loadmore :status="has_more ? status : 'nomore'" /></view> -->
 		</view>
 
-		<view class="index-content">
+		<!-- 供应商溯源模块已隐藏 -->
+		<!-- <view class="index-content">
 			<view class="u-font-30 title">
 				<text class="stroke"></text>
 				<text style="color: #ff0000;">到供应商处溯源，全程回放</text>
@@ -153,18 +158,14 @@
 						<text class="u-line-2">{{ item.title }}</text>
 					</view>
 				</view>
-				<!-- 空数据 -->
 			</view>
-			<!-- 查看更多按钮 -->
 			<view class="more-btn-wrap" v-if="sy.length > 4" @click="showAllSy = !showAllSy">
 				<view class="more-btn">
 					<text>{{ showAllSy ? '收起' : '查看更多' }}</text>
 					<u-icon :name="showAllSy ? 'arrow-up' : 'arrow-down'" size="24" color="#ff4444"></u-icon>
 				</view>
 			</view>
-			<!-- 加载更多 -->
-			<!-- <view class="u-p-b-30" v-if="recommends.length"><u-loadmore :status="has_more ? status : 'nomore'" /></view> -->
-		</view>
+		</view> -->
 
 		<view style="height: 70rpx;width: 70rpx;position: fixed;bottom: 170px;right: 64rpx;;opacity: 0.7">
 			<!-- <view>
