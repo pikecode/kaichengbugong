@@ -499,86 +499,40 @@ if (document.readyState === 'loading') {
 }
 
 function generateQRCode() {
-    // 获取商品ID（从URL或表单）
     var goodsId = '{$row.id}';
     if (!goodsId) {
         Layer.msg('商品ID不存在，请先保存商品', {icon: 2});
         return;
     }
 
-    // 获取选择的日期和分类
     var date = document.getElementById('qr-date').value;
     var type = document.getElementById('qr-type').value;
-    var env = document.getElementById('qr-env').value;
 
-    // 验证日期是否选择
     if (!date) {
         Layer.msg('请选择日期', {icon: 2});
         return;
     }
 
-    // 构建小程序页面路径（使用分包路径）
-    var page = 'packageA/goods/detail';
+    // 日期转为6位 YYMMDD，type=0时省略
+    var shortDate = date.replace(/-/g, '').substring(2);
+    var v = goodsId + '_' + shortDate + (type !== '0' ? '_' + type : '');
+    var h5Url = 'https://wx.kcbg.com.cn/q.php?v=' + v;
 
-    // 将日期格式从 2026-02-12 转换为 20260212（节省2个字符，满足32字符限制）
-    var shortDate = date.replace(/-/g, '');
-
-    // 构建scene参数（小程序码的参数，最多32个字符）
-    // 例如：id=39&date=20260212&type=0 = 26字符
-    var scene = 'id=' + goodsId + '&date=' + shortDate + '&type=' + type;
-
-    // URL编码 scene 参数
-    var encodedScene = encodeURIComponent(scene);
-    var debugPath = page + '?scene=' + encodedScene;
-
-    // 显示URL信息
-    var envText = env === 'release' ? '正式版' : (env === 'trial' ? '体验版' : '开发版');
-    document.getElementById('qr-url-display').textContent = '环境：' + envText + ' | 小程序路径：/' + page + ' | 参数：' + scene;
-
-    // 清空之前的二维码
-    document.getElementById('qrcode').innerHTML = '<div style="text-align:center;padding:50px;">正在生成二维码...</div>';
+    // 清空并显示容器
+    var container = document.getElementById('qrcode');
+    container.innerHTML = '';
     document.getElementById('qrcode-container').style.display = 'block';
+    document.getElementById('qr-url-display').textContent = 'H5跳转地址：' + h5Url;
 
-    // 调用后端接口，使用微信 createQRCode API 生成标准方形二维码
-    $.ajax({
-        url: 'shop/ajax/create_qr_code',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            page: page,
-            scene: scene,
-            env_version: env
-        },
-        success: function(res) {
-            if (res.code === 1) {
-                // 生成成功，显示二维码图片
-                var html = '<div style="text-align:center;padding:20px;background:#fff;border-radius:8px;">';
-                html += '<img src="' + res.data + '?' + Date.now() + '" style="width:280px;" />';
-                html += '</div>';
-                html += '<div style="margin-top:20px;padding:15px;background:#f0f9ff;border:1px solid #0ea5e9;border-radius:5px;">';
-                html += '<div style="font-weight:bold;color:#0369a1;margin-bottom:10px;">📱 微信开发者工具调试路径：</div>';
-                html += '<div style="background:white;padding:10px;border-radius:3px;word-break:break-all;font-family:monospace;font-size:12px;color:#1e293b;">';
-                html += debugPath;
-                html += '</div>';
-                html += '<button type="button" class="btn btn-sm btn-info" style="margin-top:10px;" onclick="copyDebugPath(\'' + debugPath.replace(/'/g, "\\'") + '\')">';
-                html += '<i class="fa fa-copy"></i> 复制路径';
-                html += '</button>';
-                html += '<div style="margin-top:10px;font-size:12px;color:#64748b;">';
-                html += '💡 在微信开发者工具的"编译模式"中粘贴此路径，可直接调试扫码效果';
-                html += '</div>';
-                html += '</div>';
-                document.getElementById('qrcode').innerHTML = html;
-                Layer.msg('二维码生成成功', {icon: 1});
-            } else {
-                document.getElementById('qrcode').innerHTML = '<div style="text-align:center;padding:50px;color:red;">生成失败：' + res.msg + '</div>';
-                Layer.msg(res.msg, {icon: 2});
-            }
-        },
-        error: function(xhr) {
-            document.getElementById('qrcode').innerHTML = '<div style="text-align:center;padding:50px;color:red;">请求失败，请检查网络</div>';
-            Layer.msg('请求失败', {icon: 2});
-        }
+    // 本地用 qrcode.js 生成，最低纠错等级 L（格子最少）
+    new QRCode(container, {
+        text: h5Url,
+        width: 400,
+        height: 400,
+        correctLevel: QRCode.CorrectLevel.L
     });
+
+    Layer.msg('二维码生成成功', {icon: 1});
 }
 
 // 复制调试路径到剪贴板
@@ -604,40 +558,30 @@ function copyDebugPath(path) {
 }
 
 function downloadQRCode() {
-    // 获取二维码图片
-    var img = document.querySelector('#qrcode img');
-
-    if (!img || !img.src) {
-        Layer.msg('请先生成二维码', {icon: 2});
-        return;
-    }
-
-    // 获取参数用于文件名
     var goodsId = '{$row.id}';
     var date = document.getElementById('qr-date').value;
     var type = document.getElementById('qr-type').value;
     var typeNames = ['生产全程回放', '精彩瞬间', '多视角回放', '配料回放'];
     var fileName = 'qrcode-' + goodsId + '-' + date + '-' + typeNames[type] + '.png';
 
-    // 通过 fetch 下载原始图片，避免跨域和裁剪问题
-    var imgUrl = img.src.split('?')[0]; // 去掉缓存参数
-    fetch(imgUrl)
-        .then(function(res) { return res.blob(); })
-        .then(function(blob) {
-            var url = URL.createObjectURL(blob);
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            Layer.msg('二维码下载成功', {icon: 1});
-        })
-        .catch(function() {
-            // fallback: 直接打开图片让用户右键保存
-            window.open(imgUrl, '_blank');
-            Layer.msg('请右键图片另存为', {icon: 0});
-        });
+    // qrcode.js 优先用 canvas，降级用 img
+    var canvas = document.querySelector('#qrcode canvas');
+    var img = document.querySelector('#qrcode img');
+
+    if (canvas) {
+        var a = document.createElement('a');
+        a.href = canvas.toDataURL('image/png');
+        a.download = fileName;
+        a.click();
+        Layer.msg('二维码下载成功', {icon: 1});
+    } else if (img && img.src) {
+        var a = document.createElement('a');
+        a.href = img.src;
+        a.download = fileName;
+        a.click();
+        Layer.msg('二维码下载成功', {icon: 1});
+    } else {
+        Layer.msg('请先生成二维码', {icon: 2});
+    }
 }
 </script>

@@ -370,34 +370,48 @@ export default {
 		if (e.scene) {
 			const scene = decodeURIComponent(e.scene);
 
-			// 给 scene 加上 ? 前缀，让 getQueryString 能正确解析第一个参数
-			const sceneWithPrefix = '?' + scene;
-
-			// 从 scene 中解析商品ID（优先使用 id，兼容 goods_id）
-			let id = this.$util.getQueryString('id', sceneWithPrefix);
-			let goods_id = this.$util.getQueryString('goods_id', sceneWithPrefix);
-
-			if (id) {
-				this.id = id;
-			} else if (goods_id) {
-				this.id = goods_id;
-			}
-
-			invite_id = this.$util.getQueryString('invite_id', sceneWithPrefix) || invite_id;
-
-			// 从 scene 中解析日期和分类参数（扫码时参数都在 scene 中）
-			let date = this.$util.getQueryString('date', sceneWithPrefix);
-			if (date) {
-				// 将 20260212 转换为 2026-02-12 格式
-				if (date.length === 8 && /^\d{8}$/.test(date)) {
+			// 新格式：逗号分隔 "{id},{YYMMDD}[,{type}]"
+			//   39,260212     → id=39, date=2026-02-12, type=0（省略type默认0）
+			//   39,260212,1   → id=39, date=2026-02-12, type=1
+			// 兼容旧格式：key=value "id=39&date=20260212&type=0"
+			const parts = scene.split(',');
+			if ((parts.length === 2 || parts.length === 3) && /^\d+$/.test(parts[0])) {
+				// 新格式解析
+				this.id = parts[0];
+				let date = parts[1];
+				// 6位YYMMDD → 补全为 YYYY-MM-DD
+				if (date.length === 6 && /^\d{6}$/.test(date)) {
+					date = '20' + date.substring(0, 2) + '-' + date.substring(2, 4) + '-' + date.substring(4, 6);
+				} else if (date.length === 8 && /^\d{8}$/.test(date)) {
 					date = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
 				}
 				this.targetDate = date;
-			}
-			let type = this.$util.getQueryString('type', sceneWithPrefix);
-			if (type !== null && type !== '') {
-				this.curNow = parseInt(type);
-				this.targetType = parseInt(type);
+				const type = parts.length === 3 ? parseInt(parts[2]) : 0;
+				this.curNow = type;
+				this.targetType = type;
+			} else {
+				// 旧格式兼容解析
+				const sceneWithPrefix = '?' + scene;
+				let id = this.$util.getQueryString('id', sceneWithPrefix);
+				let goods_id = this.$util.getQueryString('goods_id', sceneWithPrefix);
+				if (id) {
+					this.id = id;
+				} else if (goods_id) {
+					this.id = goods_id;
+				}
+				invite_id = this.$util.getQueryString('invite_id', sceneWithPrefix) || invite_id;
+				let date = this.$util.getQueryString('date', sceneWithPrefix);
+				if (date) {
+					if (date.length === 8 && /^\d{8}$/.test(date)) {
+						date = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
+					}
+					this.targetDate = date;
+				}
+				let type = this.$util.getQueryString('type', sceneWithPrefix);
+				if (type !== null && type !== '') {
+					this.curNow = parseInt(type);
+					this.targetType = parseInt(type);
+				}
 			}
 		}
 
