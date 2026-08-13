@@ -525,7 +525,7 @@ function generateQRCode() {
     document.getElementById('qrcode-container').style.display = 'block';
 
     $.ajax({
-        url: 'shop/ajax/create_qr_code',
+        url: 'shop/ajax/get_qr_code',
         type: 'POST',
         dataType: 'json',
         data: { page: page, scene: scene, env_version: env },
