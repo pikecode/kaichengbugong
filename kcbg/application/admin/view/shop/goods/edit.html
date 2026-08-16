@@ -507,7 +507,6 @@ function generateQRCode() {
 
     var date = document.getElementById('qr-date').value;
     var type = document.getElementById('qr-type').value;
-    var env  = document.getElementById('qr-env').value;
 
     if (!date) {
         Layer.msg('请选择日期', {icon: 2});
@@ -517,69 +516,41 @@ function generateQRCode() {
     // 日期转为6位 YYMMDD，type=0时省略
     var shortDate = date.replace(/-/g, '').substring(2);
     var scene = goodsId + ',' + shortDate + (type !== '0' ? ',' + type : '');
-    var page  = 'packageA/goods/detail';
-    var debugPath = page + '?scene=' + encodeURIComponent(scene);
+    var url = 'packageA/goods/detail?scene=' + scene;
 
-    document.getElementById('qr-url-display').textContent = '小程序路径：/' + page + ' | 参数：' + scene;
-    document.getElementById('qrcode').innerHTML = '<div style="text-align:center;padding:50px;">正在生成二维码...</div>';
+    document.getElementById('qr-url-display').textContent = '小程序路径：/' + url;
+
+    // 清空旧的二维码
+    document.getElementById('qrcode').innerHTML = '';
     document.getElementById('qrcode-container').style.display = 'block';
 
-    $.ajax({
-        url: 'shop/ajax/get_qr_code',
-        type: 'POST',
-        dataType: 'json',
-        data: { page: page, scene: scene, env_version: env },
-        success: function(res) {
-            if (res.code === 1) {
-                var html = '<div style="text-align:center;padding:20px;background:#fff;border-radius:8px;">';
-                html += '<img src="' + res.data + '?' + Date.now() + '" style="width:320px;" />';
-                html += '</div>';
-                html += '<div style="margin-top:15px;padding:12px;background:#f0f9ff;border:1px solid #0ea5e9;border-radius:5px;">';
-                html += '<div style="font-weight:bold;color:#0369a1;margin-bottom:8px;">📱 调试路径：</div>';
-                html += '<div style="background:white;padding:8px;border-radius:3px;word-break:break-all;font-family:monospace;font-size:12px;">' + debugPath + '</div>';
-                html += '<button type="button" class="btn btn-sm btn-info" style="margin-top:8px;" onclick="copyDebugPath(\'' + debugPath.replace(/'/g, "\\'") + '\')">';
-                html += '<i class="fa fa-copy"></i> 复制路径</button></div>';
-                document.getElementById('qrcode').innerHTML = html;
-                Layer.msg('二维码生成成功', {icon: 1});
-            } else {
-                document.getElementById('qrcode').innerHTML = '<div style="text-align:center;padding:50px;color:red;">生成失败：' + res.msg + '</div>';
-                Layer.msg(res.msg, {icon: 2});
-            }
-        },
-        error: function() {
-            document.getElementById('qrcode').innerHTML = '<div style="text-align:center;padding:50px;color:red;">请求失败，请检查网络</div>';
-            Layer.msg('请求失败', {icon: 2});
-        }
+    // 本地 qrcode.js 生成，无icon，纠错等级 L（格子最少）
+    new QRCode(document.getElementById('qrcode'), {
+        text: url,
+        width: 400,
+        height: 400,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.L
     });
-}
 
-// 复制调试路径到剪贴板
-function copyDebugPath(path) {
-    // 创建临时文本框
-    var textarea = document.createElement('textarea');
-    textarea.value = path;
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-
-    // 选择并复制
-    textarea.select();
-    try {
-        document.execCommand('copy');
-        Layer.msg('调试路径已复制到剪贴板', {icon: 1});
-    } catch (err) {
-        Layer.msg('复制失败，请手动复制', {icon: 2});
-    }
-
-    // 移除临时元素
-    document.body.removeChild(textarea);
+    Layer.msg('二维码生成成功', {icon: 1});
 }
 
 function downloadQRCode() {
+    var canvas = document.querySelector('#qrcode canvas');
     var img = document.querySelector('#qrcode img');
-    if (!img || !img.src) {
+
+    if (!canvas && !img) {
         Layer.msg('请先生成二维码', {icon: 2});
         return;
+    }
+
+    if (!canvas && img) {
+        canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext('2d').drawImage(img, 0, 0);
     }
 
     var goodsId = '{$row.id}';
@@ -588,23 +559,16 @@ function downloadQRCode() {
     var typeNames = ['生产全程回放', '精彩瞬间', '多视角回放', '配料回放'];
     var fileName = 'qrcode-' + goodsId + '-' + date + '-' + typeNames[type] + '.png';
 
-    var imgUrl = img.src.split('?')[0];
-    fetch(imgUrl)
-        .then(function(res) { return res.blob(); })
-        .then(function(blob) {
-            var url = URL.createObjectURL(blob);
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            Layer.msg('二维码下载成功', {icon: 1});
-        })
-        .catch(function() {
-            window.open(imgUrl, '_blank');
-            Layer.msg('请右键图片另存为', {icon: 0});
-        });
+    canvas.toBlob(function(blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        Layer.msg('二维码下载成功', {icon: 1});
+    });
 }
 </script>
