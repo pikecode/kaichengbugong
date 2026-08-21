@@ -516,42 +516,38 @@ function generateQRCode() {
     // 日期转为6位 YYMMDD，type=0时省略
     var shortDate = date.replace(/-/g, '').substring(2);
     var scene = goodsId + ',' + shortDate + (type !== '0' ? ',' + type : '');
-    var url = 'packageA/goods/detail?scene=' + scene;
-
-    document.getElementById('qr-url-display').textContent = '小程序路径：/' + url;
-
-    // 清空旧的二维码
-    document.getElementById('qrcode').innerHTML = '';
+    var env = document.getElementById('qr-env').value;
+    var page = 'packageA/goods/detail';
+    document.getElementById('qr-url-display').textContent = '小程序路径：/' + page + ' | 参数：' + scene;
+    document.getElementById('qrcode').innerHTML = '<div style="text-align:center;padding:50px;">正在生成二维码...</div>';
     document.getElementById('qrcode-container').style.display = 'block';
 
-    // 本地 qrcode.js 生成，无icon，纠错等级 L（格子最少）
-    new QRCode(document.getElementById('qrcode'), {
-        text: url,
-        width: 400,
-        height: 400,
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.L
+    $.ajax({
+        url: 'shop/ajax/create_qr_code',
+        type: 'POST',
+        dataType: 'json',
+        data: { page: page, scene: scene, env_version: env },
+        success: function(res) {
+            if (res.code === 1) {
+                document.getElementById('qrcode').innerHTML =
+                    '<div style="text-align:center;padding:20px;background:#fff;border-radius:8px;">' +
+                    '<img src="' + res.data + '?' + Date.now() + '" style="width:400px;" /></div>';
+                Layer.msg('二维码生成成功', {icon: 1});
+            } else {
+                document.getElementById('qrcode').innerHTML = '<div style="text-align:center;padding:50px;color:red;">生成失败：' + res.msg + '</div>';
+                Layer.msg(res.msg, {icon: 2});
+            }
+        },
+        error: function() {
+            document.getElementById('qrcode').innerHTML = '<div style="text-align:center;padding:50px;color:red;">请求失败</div>';
+            Layer.msg('请求失败', {icon: 2});
+        }
     });
-
-    Layer.msg('二维码生成成功', {icon: 1});
 }
 
 function downloadQRCode() {
-    var canvas = document.querySelector('#qrcode canvas');
     var img = document.querySelector('#qrcode img');
-
-    if (!canvas && !img) {
-        Layer.msg('请先生成二维码', {icon: 2});
-        return;
-    }
-
-    if (!canvas && img) {
-        canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        canvas.getContext('2d').drawImage(img, 0, 0);
-    }
+    if (!img || !img.src) { Layer.msg('请先生成二维码', {icon: 2}); return; }
 
     var goodsId = '{$row.id}';
     var date = document.getElementById('qr-date').value;
@@ -559,16 +555,16 @@ function downloadQRCode() {
     var typeNames = ['生产全程回放', '精彩瞬间', '多视角回放', '配料回放'];
     var fileName = 'qrcode-' + goodsId + '-' + date + '-' + typeNames[type] + '.png';
 
-    canvas.toBlob(function(blob) {
-        var url = URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        Layer.msg('二维码下载成功', {icon: 1});
-    });
+    fetch(img.src.split('?')[0])
+        .then(function(r) { return r.blob(); })
+        .then(function(blob) {
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = fileName;
+            document.body.appendChild(a); a.click();
+            document.body.removeChild(a);
+            Layer.msg('二维码下载成功', {icon: 1});
+        })
+        .catch(function() { window.open(img.src, '_blank'); });
 }
 </script>
